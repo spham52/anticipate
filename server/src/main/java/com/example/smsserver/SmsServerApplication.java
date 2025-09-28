@@ -8,14 +8,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication
 @EnableMongoRepositories
 @RequiredArgsConstructor
-public class SmsServerApplication implements CommandLineRunner {
+public class SmsServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SmsServerApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-
     }
 }
