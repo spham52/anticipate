@@ -13,13 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "UserSensor")
+@Table(name = "user_sensor")
+
+// Entity class which represents the association between user and their device
 public class UserSensor {
 
     @Id
     @NotNull
-    String sensorID;
+    private String sensorID;
 
     @NotNull
-    String userID;
+    private String userID;
 }
