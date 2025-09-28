@@ -1,6 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.RegistrationRequest;
+import com.example.smsserver.dto.TokenRegistrationRequest;
 import com.example.smsserver.repository.RegistrationTokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -12,21 +12,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RegistrationController.class)
+@WebMvcTest(TokenRegistrationController.class)
 class RegistrationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockitoBean
-    private RegistrationTokenRepository registrationTokenRepository;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Test
     void registerToken_shouldSaveToken() throws Exception {
-        RegistrationRequest registrationRequest = RegistrationRequest.builder()
+        TokenRegistrationRequest registrationRequest = TokenRegistrationRequest.builder()
                 .tokenID("123")
                 .userID("123")
                 .appVersion("1.0")
