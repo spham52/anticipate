@@ -14,8 +14,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @RequiredArgsConstructor
 public class SmsServerApplication implements CommandLineRunner {
 
-    private final RegistrationTokenRepository registrationTokenRepository;
-
     public static void main(String[] args) {
         SpringApplication.run(SmsServerApplication.class, args);
     }
