@@ -1,26 +1,33 @@
 package com.example.smsserver.model;
 
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-// Java POJO for "RegistrationToken"
-// This is what will be saved into the token database
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Document("RegistrationToken")
+// MongoDB document class representing a Firebase Registration Token
+// each entry represents a token used for sending notifications to a specified user
 public class RegistrationToken {
     @Id
-    String tokenID;
-    String userID;
+    private String tokenID;
+
+    private String userID;
 
     @Builder.Default
-    long timeCreated = System.currentTimeMillis();
+    private long timeCreated = System.currentTimeMillis();
 
     @Builder.Default
-    boolean valid = true;
+    private boolean valid = true;
 
-    String platform;
-    String appVersion;
+    private String platform;
+    private String appVersion;
 }

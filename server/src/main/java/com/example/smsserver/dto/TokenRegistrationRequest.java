@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RegistrationRequest {
+public class TokenRegistrationRequest {
     @NotBlank
     private String tokenID;
 
