@@ -1,0 +1,38 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello, world!</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #e9eef3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+
+    <div style="background: white; padding: 40px 50px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 320px;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 25px;">Welcome</h2>
+
+        <form action="/submit_form.php" method="post">
+            <label for="username" style="display:block; margin-bottom:8px; color:#555; font-size:14px;">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username"
+                style="width:100%; padding:10px; margin-bottom:18px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+
+            <label for="password" style="display:block; margin-bottom:8px; color:#555; font-size:14px;">Password</label>
+            <input type="password" id="password" name="password" required
+                style="width:100%; padding:10px; margin-bottom:25px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+
+            <input type="submit" value="Login"
+                style="width:100%; background-color:#007bff; color:white; font-size:15px; font-weight:bold; padding:10px; border:none; border-radius:6px; cursor:pointer; transition:background-color 0.2s;">
+        </form>
+    </div>
+
+    <script>
+        // Add a subtle hover effect for better UX
+        const btn = document.querySelector('input[type=submit]');
+        btn.addEventListener('mouseover', () => btn.style.backgroundColor = '#0056b3');
+        btn.addEventListener('mouseout', () => btn.style.backgroundColor = '#007bff');
+    </script>
+
+</body>
+</html>
+
