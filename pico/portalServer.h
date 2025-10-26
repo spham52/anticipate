@@ -8,6 +8,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <arpa/inet.h>
+#include <sstream>  // For stringstream
+#include <fstream> // For file stream operations
 
 using namespace std;
 
@@ -16,7 +18,7 @@ class PortalServer {
 
         PortalServer() {
             cout << "Initializing http server" << endl;
-         
+
             // create TCP socket
             if ((tcp_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
                 cerr << "Socket creation failed." << endl;
@@ -103,28 +105,28 @@ class PortalServer {
         bool initialized = false;
         int tcp_socket;
 
-        void handleClient(int client_socket) {
-            const char html[] = "HTTP/1.1 200 OK\r\n"
-            "Connection: close\r\n"
-            "Content-type: text/html\r\n"
-            "\r\n"
-            "<html>\r\n"
-            "<head>\r\n"
-            "<title>Hello, world!</title>\r\n"
-            "</head>\r\n"
-            "<body>\r\n"
-            "<h1>Hello, world!</h1>\r\n"
-            "<form action=\"/submit_form.php\" method=\"post\">"
-            "<label for=\"username\">Username:</label><br>"
-            "<input type=\"text\" id=\"username\" name=\"username\" placeholder=\"Enter your username\"><br><br>"
-            "<label for=\"password\">Password:</label><br>"
-            "<input type=\"password\" id=\"password\" name=\"password\" required><br><br>"
-            "<input type=\"submit\" value=\"Login\">"
-            "</form>"
-            "</body>\r\n"
-            "</html>\r\n\r\n";
+        string initializeHTML() {     
+            
+            std::ifstream inputFile("portalForm.html"); // Assuming mydata.txt exists
+            string html = "";
 
-            send(client_socket, html, strlen(html), 0);
+            if (!inputFile.is_open()) {
+                std::cerr << "Error opening file!" << std::endl;
+                return html;
+            }
+
+            stringstream buffer;
+            buffer << inputFile.rdbuf();
+            return buffer.str();
+        }
+
+        void handleClient(int client_socket) {
+
+            cout << "SENDING TO CLIENT:\n";
+            string html = initializeHTML();
+            cout << html << endl;
+
+            send(client_socket, html.c_str(), html.size(), 0);
             close(client_socket);
         }
 
