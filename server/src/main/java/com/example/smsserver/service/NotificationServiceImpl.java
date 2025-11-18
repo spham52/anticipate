@@ -22,7 +22,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendNotification(SensorNotification notification) throws FirebaseMessagingException {
         String sensorID = notification.getSensorID();
 
-        String userID = userSensorRepository.findById(sensorID).get().getUserID();
+        String userID = userSensorRepository.findById(sensorID)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown sensorID: " + sensorID))
+                .getUserID();
 
         RegistrationToken registrationToken = tokenRegistrationRepository.findByUserID(userID);
         Message message = Message.builder()
