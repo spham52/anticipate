@@ -32,7 +32,7 @@ class WifiProvisioner {
             } else {                // parent process code
                 cout << "Parent process. Child PID: " << pid << endl;
                 
-                sleep(30);                  // allow 1 minute for user to provide wifi info
+                sleep(180);                  // allow 1 minute for user to provide wifi info
 
                 cout << "Parent sending SIGTERM to child." << endl;
                 server.closeServer();
@@ -43,7 +43,6 @@ class WifiProvisioner {
                 cout << "Child process terminated with status: " << status << endl;
             }
 
-            
         };
 
     private:
