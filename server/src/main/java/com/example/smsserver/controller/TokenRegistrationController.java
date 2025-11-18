@@ -2,7 +2,7 @@ package com.example.smsserver.controller;
 
 import com.example.smsserver.dto.TokenRegistrationRequest;
 import com.example.smsserver.model.RegistrationToken;
-import com.example.smsserver.repository.RegistrationTokenRepository;
+import com.example.smsserver.repository.TokenRegistrationRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 // Rest controller used for handling Firebase token registration
 public class TokenRegistrationController {
-    private final RegistrationTokenRepository registrationTokenRepo;
+    private final TokenRegistrationRepository registrationTokenRepo;
 
     // The client will send tokenID (which is generated via the Firebase SDK) and other details to
     // this API endpoint. Then this endpoint will save it into the database and associate it with that user.
