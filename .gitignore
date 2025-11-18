@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven build output
+/target/
+/server/target/
+
+# Local Spring config (if it has secrets)
+server/src/main/resources/application.properties
+
+# Firebase / other credentials
+server/src/main/resources/credentials/
