@@ -1,6 +1,5 @@
 package com.example.smsserver.model;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("RegistrationToken")
 // MongoDB document class representing a Firebase Registration Token
 // each entry represents a token used for sending notifications to a specified user
-public class RegistrationToken {
+public class TokenRegistration {
     @Id
     private String tokenID;
 
