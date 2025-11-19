@@ -1,10 +1,11 @@
 package com.example.smsserver.service;
 
 import com.example.smsserver.dto.SensorNotification;
-import com.example.smsserver.model.RegistrationToken;
-import com.example.smsserver.model.UserSensor;
+import com.example.smsserver.model.TokenRegistration;
+import com.example.smsserver.model.Sensor;
+import com.example.smsserver.model.User;
+import com.example.smsserver.repository.SensorRepository;
 import com.example.smsserver.repository.TokenRegistrationRepository;
-import com.example.smsserver.repository.UserSensorRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -28,7 +29,7 @@ class NotificationServiceImplTest {
     TokenRegistrationRepository tokenRegistrationRepository;
 
     @Mock
-    UserSensorRepository userSensorRepository;
+    SensorRepository sensorRepository;
 
     @Mock
     FirebaseMessaging firebaseMessaging;
@@ -41,27 +42,28 @@ class NotificationServiceImplTest {
         String userID = "user-123";
         String tokenID = "token-123";
 
-        // mock SensorNotification POJO
+        // mock SensorNotification DTO arriving into service class
         SensorNotification sensorNotification = SensorNotification.builder()
                 .sensorID(sensorID).build();
 
-        // mock UserSensor entity class
-        UserSensor userSensor = UserSensor.builder()
-                .sensorID(sensorID)
-                .userID(userID)
-                .build();
+        User user = new User();
+        user.setUserID(userID);
 
-        RegistrationToken registrationToken = RegistrationToken.builder()
+        Sensor sensor = new Sensor();
+        sensor.setId(sensorID);
+        sensor.setUser(user);
+
+        TokenRegistration tokenRegistration = TokenRegistration.builder()
                 .tokenID(tokenID)
                 .userID(userID)
                 .valid(true)
                 .build();
 
-        // when userSensorRepository calls findById return userSensor
-        when(userSensorRepository.findById(sensorID)).thenReturn(Optional.of(userSensor));
+        // when SensorRepository calls findById return sensor
+        when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
 
         // when tokenRegistrationRepository calls findById return registrationToken
-        when(tokenRegistrationRepository.findByUserID(userID)).thenReturn(registrationToken);
+        when(tokenRegistrationRepository.findByUserID(userID)).thenReturn(tokenRegistration);
 
         // if firebaseMessaging calls send (with any Message.class) return message id
         when(firebaseMessaging.send(any(Message.class))).thenReturn("message-id");
@@ -70,7 +72,7 @@ class NotificationServiceImplTest {
 
         // verify a messsage was actually sent
         verify(firebaseMessaging).send(any(Message.class));
-        verify(userSensorRepository).findById(sensorID);
+        verify(sensorRepository).findById(sensorID);
         verify(tokenRegistrationRepository).findByUserID(userID);
     }
 }
