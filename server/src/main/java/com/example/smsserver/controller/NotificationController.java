@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @PostMapping("/sensor/notify")
+    @PostMapping("/notification/notify")
     public ResponseEntity<String> sendNotification(@RequestBody SensorNotification sensorNotification) {
         try {
             notificationService.sendNotification(sensorNotification);
