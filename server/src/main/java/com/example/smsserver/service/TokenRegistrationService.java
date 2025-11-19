@@ -5,5 +5,5 @@ import com.example.smsserver.model.TokenRegistration;
 
 public interface TokenRegistrationService {
 
-    public TokenRegistration registerToken(TokenRegistrationRequest tokenRegistrationRequest);
+    TokenRegistration registerToken(TokenRegistrationRequest tokenRegistrationRequest);
 }

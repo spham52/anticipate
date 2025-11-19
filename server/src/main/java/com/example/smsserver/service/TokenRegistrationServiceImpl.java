@@ -2,7 +2,6 @@ package com.example.smsserver.service;
 
 import com.example.smsserver.dto.TokenRegistrationRequest;
 import com.example.smsserver.exception.UserAlreadyExistsException;
-import com.example.smsserver.exception.UserNotFoundException;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.repository.TokenRegistrationRepository;
 import lombok.RequiredArgsConstructor;

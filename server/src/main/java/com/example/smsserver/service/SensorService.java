@@ -4,5 +4,5 @@ import com.example.smsserver.dto.SensorRegistrationRequest;
 
 public interface SensorService {
 
-    public void associateUserWithSensor(SensorRegistrationRequest request);
+    void associateUserWithSensor(SensorRegistrationRequest request);
 }
