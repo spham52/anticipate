@@ -1,6 +1,7 @@
 package com.example.smsserver.service;
 
 import com.example.smsserver.dto.UserRegistrationRequest;
+import com.example.smsserver.exception.UserNotFoundException;
 import com.example.smsserver.model.User;
 import com.example.smsserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,10 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 }

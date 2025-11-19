@@ -7,4 +7,6 @@ import com.example.smsserver.model.User;
 public interface UserService {
 
     User registerUser(UserRegistrationRequest userRegistrationRequest);
+
+    User getUserById(String id);
 }
