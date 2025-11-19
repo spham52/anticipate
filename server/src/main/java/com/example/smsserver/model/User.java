@@ -1,15 +1,13 @@
 package com.example.smsserver.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -43,6 +41,9 @@ public class User {
     @NotNull
     @Email
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<Sensor> sensors;
 
     @Override
     public String toString() {
