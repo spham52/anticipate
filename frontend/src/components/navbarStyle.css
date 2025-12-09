@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #6063A3;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anticipate-text {
+    margin: 0;
+    font-family: 'Lexend', 'sans-serif';
+    font-weight: 300;
+    color: white;
+    padding-left: 1rem;
+}
+
+#navbar-login-text {
+    padding-right: 1rem;
+    color: white;
+    font-family: 'Lexend', 'sans-serif';
+    font-weight: 300;
+}
+
+#navbar-anticipate-text {
+    margin: 0;
+    font-family: 'Lexend', 'sans-serif';
+    font-weight: 300;
+    color: white;
+    padding-left: 1rem;
+    font-size: 2rem;
+    text-decoration: none;
+}
