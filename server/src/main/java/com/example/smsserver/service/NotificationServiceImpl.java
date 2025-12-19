@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotification;
+import com.example.smsserver.dto.SensorNotificationDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.repository.SensorRepository;
@@ -15,23 +15,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationServiceImpl implements NotificationService {
     private final TokenRegistrationRepository tokenRegistrationRepository;
-    private final SensorRepository sensorRepository;
+    private final SensorService sensorService;
     private final FirebaseMessaging firebaseMessaging;
 
     @Override
     // function to send notification to user associated with sensor
-    public void sendNotification(SensorNotification notification) throws FirebaseMessagingException {
+    public void sendNotification(SensorNotificationDTO notification) throws FirebaseMessagingException {
         String sensorID = notification.getSensorID();
 
-        Sensor sensor = sensorRepository.findById(sensorID)
-                .orElseThrow(() -> new IllegalArgumentException("Unknown sensorID: " + sensorID));
+        Sensor sensor = sensorService.findSensorById(sensorID);
 
+        // if sensor is not associated with user
         if (sensor.getUser() == null) {
             throw new RuntimeException("Sensor " + sensorID + " does not have a user");
         }
 
         String userID = sensor.getUser().getUserID();
 
+        // find fcm token associated with user (to send notification to specific device)
         TokenRegistration tokenRegistration = tokenRegistrationRepository.findByUserID(userID);
 
         if (tokenRegistration == null) {
@@ -43,6 +44,10 @@ public class NotificationServiceImpl implements NotificationService {
                 .putData("notification", "notification")
                 .build();
 
+        // save notification history into db
+        sensorService.saveNotification(notification);
+
+        // send notification to user's device
         firebaseMessaging.send(message);
     }
 }

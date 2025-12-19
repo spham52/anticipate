@@ -1,9 +1,9 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotification;
+import com.example.smsserver.dto.SensorNotificationDTO;
 import com.google.firebase.messaging.FirebaseMessagingException;
 
 public interface NotificationService {
 
-    void sendNotification(SensorNotification notification) throws FirebaseMessagingException;
+    void sendNotification(SensorNotificationDTO notification) throws FirebaseMessagingException;
 }
