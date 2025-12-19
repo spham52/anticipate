@@ -9,7 +9,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserRegistrationRequest {
+// DTO for sending user registration information from frontend to backend
+public class UserRegistrationRequestDTO {
 
     @NotBlank
     @NotNull

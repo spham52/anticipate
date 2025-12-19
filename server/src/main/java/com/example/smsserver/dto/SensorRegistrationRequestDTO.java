@@ -1,21 +1,18 @@
 package com.example.smsserver.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class TokenRegistrationRequest {
+public class SensorRegistrationRequestDTO {
     @NotBlank
-    private String tokenID;
-
-    @NotBlank
+    @NotNull
     private String userID;
 
     @NotBlank
-    private String platform;
-
-    @NotBlank
-    private String appVersion;
+    @NotNull
+    private String sensorID;
 }
