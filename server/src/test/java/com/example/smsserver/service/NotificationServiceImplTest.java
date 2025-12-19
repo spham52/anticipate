@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotification;
+import com.example.smsserver.dto.SensorNotificationDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.User;
@@ -43,7 +43,7 @@ class NotificationServiceImplTest {
         String tokenID = "token-123";
 
         // mock SensorNotification DTO arriving into service class
-        SensorNotification sensorNotification = SensorNotification.builder()
+        SensorNotificationDTO sensorNotificationDTO = SensorNotificationDTO.builder()
                 .sensorID(sensorID).build();
 
         User user = new User();
@@ -68,7 +68,7 @@ class NotificationServiceImplTest {
         // if firebaseMessaging calls send (with any Message.class) return message id
         when(firebaseMessaging.send(any(Message.class))).thenReturn("message-id");
 
-        notificationService.sendNotification(sensorNotification);
+        notificationService.sendNotification(sensorNotificationDTO);
 
         // verify a messsage was actually sent
         verify(firebaseMessaging).send(any(Message.class));
