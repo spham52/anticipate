@@ -1,9 +1,9 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.TokenRegistrationRequest;
+import com.example.smsserver.dto.TokenRegistrationRequestDTO;
 import com.example.smsserver.model.TokenRegistration;
 
 public interface TokenRegistrationService {
 
-    TokenRegistration registerToken(TokenRegistrationRequest tokenRegistrationRequest);
+    TokenRegistration registerToken(TokenRegistrationRequestDTO tokenRegistrationRequestDTO, String userID);
 }

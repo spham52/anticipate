@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.TokenRegistrationRequest;
+import com.example.smsserver.dto.TokenRegistrationRequestDTO;
 import com.example.smsserver.exception.UserAlreadyExistsException;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.repository.TokenRegistrationRepository;
@@ -15,17 +15,12 @@ public class TokenRegistrationServiceImpl implements TokenRegistrationService {
 
     @Override
     // register Firebase token and associate with userID
-    // if user already has token registered, request is rejected to avoid duplicates
-    public TokenRegistration registerToken(TokenRegistrationRequest tokenRegistrationRequest) {
-        if (tokenRegistrationRepository.existsByUserID(tokenRegistrationRequest.getUserID())) {
-            throw new UserAlreadyExistsException(tokenRegistrationRequest.getUserID());
-        }
-
+    public TokenRegistration registerToken(TokenRegistrationRequestDTO tokenRegistrationRequestDTO, String userID) {
         TokenRegistration token = TokenRegistration.builder()
-                .tokenID(tokenRegistrationRequest.getTokenID())
-                .userID(tokenRegistrationRequest.getUserID())
-                .platform(tokenRegistrationRequest.getPlatform())
-                .appVersion(tokenRegistrationRequest.getAppVersion())
+                .tokenID(tokenRegistrationRequestDTO.getTokenID())
+                .userID(userID)
+                .platform(tokenRegistrationRequestDTO.getPlatform())
+                .appVersion(tokenRegistrationRequestDTO.getAppVersion())
                 .build();
         return tokenRegistrationRepository.save(token);
     }
