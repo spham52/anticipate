@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -20,21 +19,16 @@ import java.util.UUID;
 
 // Entity class that represents the application user
 public class User {
+
+    // userID is generated from Firebase Admin
     @Id
-    @Builder.Default
-    private String userID = UUID.randomUUID().toString();
+    private String userID;
 
     @Column(unique=true, nullable = false)
     @NotBlank
     @NotNull
     @Size(min = 8, max = 24)
     private String username;
-
-    @Column(nullable = false)
-    @NotBlank
-    @NotNull
-    @Size(min = 8, max = 36)
-    private String password;
 
     @Column(unique = true, nullable = false)
     @NotBlank
