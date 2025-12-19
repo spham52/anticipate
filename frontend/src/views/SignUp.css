@@ -5,24 +5,28 @@
 .signup-form {
     display: flex;
     flex-direction: column;
-    background-color: #6063A3;
     width: 30%;
     color: white;
     font-family: "Lexend", "sans-serif";
     height: 50%;
     padding: 2rem;
     padding-top: 0.5rem;
-    padding-bottom: 3rem;
-    border-radius: 20px;
-    margin-top: 3rem;
-    box-shadow: 3px 5px 5px #3e3e3e;
+    padding-bottom: 5rem;
+    background-color: rgba(255, 255, 255, 0.027);
+    backdrop-filter: blur(10px);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.089);
+    border-radius: 30px;
 }
 
 .signup-parent-container {
     width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     font-size: 1.2rem;
+    align-items: center;
 }
 
 .signup-parent-container::before {
@@ -32,9 +36,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../public/images/office-background.jpg");
+    background-image: url("../../public/images/04-Sky.png");
     background-size: cover;
-    filter: blur(4px);
     z-index: -1;
 }
 
@@ -70,6 +73,12 @@
     text-align: center;
     border-radius: 10px;
     border: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#signup-form-submit:hover {
+    background-color: rgba(186, 186, 186, 0.78);
+    color: #ffffff;
 }
 
 .signup-forgot {

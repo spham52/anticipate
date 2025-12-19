@@ -70,7 +70,6 @@ export default function SignUp() {
                     <input type="password" id="password-input" placeholder="Password" name="password"/>
                     <label htmlFor="username-input">Confirm Password</label>
                     <input type="password" name="confirmpassword" placeholder="Confirm password"/>
-                    <p className="login-forgot">Forgot your username or password?</p>
                     {Object.keys(errors).length > 0 && (
                         <div className="signup-error-box">
                             {Object.values(errors).map((msg, i) => (
