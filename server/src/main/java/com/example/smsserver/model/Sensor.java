@@ -24,7 +24,7 @@ public class Sensor {
     @Column(unique = true, nullable = false)
     private String id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }
