@@ -7,62 +7,85 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeneralException(Exception e, HttpServletRequest request) {
-        log.error("Request: {} \n Params: {} \n Log: {}", request.getRequestURI(), request.getParameterMap(),
-                e.getMessage());
-        return ResponseEntity.status(500).body("Something went wrong.");
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException e, HttpServletRequest request) {
-        log.warn("Request: {} \n Params: {} \n Log: {}", request.getRequestURI(), request.getParameterMap(),
-                e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException e,
-                                                         HttpServletRequest request) {
-        log.error("Runtime exception - Request: {} \n Params: {} \n Log: {}",
-                request.getRequestURI(), request.getParameterMap(), e.getMessage(), e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(e.getMessage());
-    }
-
     @ExceptionHandler(SensorDoesNotExistException.class)
-    public ResponseEntity<String> handleSensorDoesNotExistException(SensorDoesNotExistException e, HttpServletRequest request) {
-        log.warn("Sensor {} does not exist.\nRequest: {}\n Params: {}",
-                e.getSensorID(), request.getRequestURI(), request.getParameterMap());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handleSensorDoesNotExist(
+            SensorDoesNotExistException e,
+            HttpServletRequest request) {
+        log.warn("Sensor {} does not exist", e.getSensorID());
+        return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(SensorAlreadyAssociatedWithUserException.class)
-    public ResponseEntity<String> handleSensorAlreadyAssociatedWithUserException
-            (SensorAlreadyAssociatedWithUserException e,
-             HttpServletRequest request) {
-        log.warn("Sensor {} is already associated with a user.\nRequest: {}\n Params: {}",
-                e.getSensorID(), request.getRequestURI(), request.getParameterMap());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handleSensorAlreadyAssociated(
+            SensorAlreadyAssociatedWithUserException e,
+            HttpServletRequest request) {
+        log.warn("Sensor {} is already associated with a user", e.getSensorID());
+        return buildErrorResponse(HttpStatus.CONFLICT, e.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFoundException (UserNotFoundException e, HttpServletRequest request) {
-        log.warn("User with ID: {} not found.\nRequest: {}\n Params: {}\n",
-                e.getUserID(), request.getRequestURI(), request.getParameterMap());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException e,
+            HttpServletRequest request) {
+        log.warn("User {} not found", e.getUserID());
+        return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<String> handleUserAlreadyExistsException (UserAlreadyExistsException e,
-                                                                    HttpServletRequest request) {
-        log.warn("User with ID: {} already exists in the DB.\nRequest: {}\n Params: {}\n",
-                e.getUserID(), request.getRequestURI(), request.getParameterMap());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(
+            UserAlreadyExistsException e,
+            HttpServletRequest request) {
+        log.warn("User already exists");
+        return buildErrorResponse(HttpStatus.CONFLICT, e.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(UnauthorisedAccessException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorisedAccess(
+            UnauthorisedAccessException e,
+            HttpServletRequest request) {
+        log.warn("Unauthorised access attempt");
+        return buildErrorResponse(HttpStatus.FORBIDDEN, e.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(
+            IllegalArgumentException e,
+            HttpServletRequest request) {
+        log.warn("Invalid argument: {}", e.getMessage());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneralException(
+            Exception e,
+            HttpServletRequest request) {
+        log.error("Unexpected error occurred", e);
+        return buildErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "An unexpected error occurred",
+                request.getRequestURI()
+        );
+    }
+
+    // helper method to build error responses
+    private ResponseEntity<ErrorResponse> buildErrorResponse(
+            HttpStatus status,
+            String message,
+            String path) {
+
+        ErrorResponse error = ErrorResponse.builder()
+                .status(status.value())
+                .message(message)
+                .path(path)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.status(status).body(error);
     }
 }
