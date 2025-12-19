@@ -52,7 +52,7 @@ class SensorServiceImplTest {
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
 
         assertThrows(SensorAlreadyAssociatedWithUserException.class,
-                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, ));
+                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, userID));
     }
 
     @Test
@@ -93,7 +93,7 @@ class SensorServiceImplTest {
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
         when(userService.findUserById(userID)).thenReturn(user);
 
-        sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, );
+        sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, userID);
         assertEquals(user, sensor.getUser());
         verify(sensorRepository).save(sensor);
     }
