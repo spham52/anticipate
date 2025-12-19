@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.UserRegistrationRequest;
+import com.example.smsserver.dto.UserRegistrationRequestDTO;
 import com.example.smsserver.model.User;
 import com.example.smsserver.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class UserServiceImplTest {
     @Test
         // test for when email already exists in the database
     void registerUser_throwsException_whenEmailAlreadyExists() {
-        UserRegistrationRequest request = UserRegistrationRequest.builder()
+        UserRegistrationRequestDTO request = UserRegistrationRequestDTO.builder()
                 .email("user@example.com")
                 .password("test123")
                 .username("john")
@@ -47,7 +47,7 @@ class UserServiceImplTest {
     @Test
         // test for when username already exists in the database
     void registerUser_throwsException_whenUsernameAlreadyExists() {
-        UserRegistrationRequest request = UserRegistrationRequest.builder()
+        UserRegistrationRequestDTO request = UserRegistrationRequestDTO.builder()
                 .email("user@example.com")
                 .username("john")
                 .password("test123")
@@ -64,7 +64,7 @@ class UserServiceImplTest {
     @Test
         // test case when the UserRegistrationRequest is valid
     void registerUser_whenValidUser() {
-        UserRegistrationRequest request = UserRegistrationRequest.builder()
+        UserRegistrationRequestDTO request = UserRegistrationRequestDTO.builder()
                 .email("user@example.com")
                 .username("john")
                 .password("test123")
@@ -72,7 +72,6 @@ class UserServiceImplTest {
 
         when(userRepository.existsByUsernameIgnoreCase("john")).thenReturn(false);
         when(userRepository.existsByEmailIgnoreCase("user@example.com")).thenReturn(false);
-        when(passwordEncoder.encode("test123")).thenReturn("{bcrypt}xyz123");
 
         userService.registerUser(request);
 
@@ -81,7 +80,6 @@ class UserServiceImplTest {
 
         User savedUser = userCaptor.getValue();
 
-        assert (savedUser.getPassword().equals("{bcrypt}xyz123"));
         assert (savedUser.getUsername().equals("john"));
         assert (savedUser.getEmail().equals("user@example.com"));
 

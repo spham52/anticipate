@@ -1,0 +1,142 @@
+. {
+    font-family: 'Lexend', 'sans-serif';
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+.root-container-two {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    gap: 2rem;
+    padding: 2rem 5vw;
+    margin-top: -40px;
+}
+
+.root-container-one {
+    height: 100vh;
+}
+
+.root-circle {
+    height: 40vw;
+    width: 40vw;
+    background-color: #214A92;
+    border-radius: 50%;
+    position: absolute;
+    right: -5vw;
+    top: 5vw;
+    overflow: hidden;
+}
+
+.root-container-info {
+    margin-top: 5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 50%;
+}
+
+.p-info-bold {
+    font-size: 3rem;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: white;
+    font-family: 'Lexend', 'sans-serif';
+}
+
+.p-info-sub {
+    margin-top: 0;
+    color: white;
+    font-family: 'Lexend', 'sans-serif';
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+.buy-now-button {
+    height: 5rem;
+    width: 40%;
+    border-radius: 10px;
+    border: none;
+    background-color: white;
+    font-size: 1.8rem;
+    font-family: 'Lexend', 'sans-serif';
+    font-weight: 600;
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 2px #3e3e3e;
+}
+
+.pico-image {
+    height: 65%;
+    width: 35%;
+    z-index: 2;
+    position: absolute;
+    left: 55vw;
+    top: 10vw;
+    filter: drop-shadow(4px 2px 2px rgba(48, 48, 48, 0.5));
+}
+
+.p-info-bold-2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Lexend', 'sans-serif';
+}
+
+.root-container-three {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.div-parent-container {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    font-family: 'Lexend', 'sans-serif';
+    font-weight: 300;
+    width: 100vw;
+    justify-content: space-evenly;
+    margin-left: 0;
+}
+
+.subtext-one {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.two-men-stock-photo {
+    flex: 0.5;
+    margin-left: 1rem;
+}
+
+/* hide scroll bar */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    scrollbar-width: none;
+}
+
+* {
+    -ms-overflow-style: none;
+}
+
+#root-container-four {
+    display: flex;
+    flex-direction: column;
+    background-image: url("../../public/images/04-Sky.png");
+    background-color: black;
+    height: 70%
+}

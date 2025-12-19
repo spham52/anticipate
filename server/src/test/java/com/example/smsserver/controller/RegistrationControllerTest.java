@@ -1,12 +1,10 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.TokenRegistrationRequest;
-import com.example.smsserver.repository.RegistrationTokenRepository;
+import com.example.smsserver.dto.TokenRegistrationRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,9 +21,8 @@ class RegistrationControllerTest {
 
     @Test
     void registerToken_shouldSaveToken() throws Exception {
-        TokenRegistrationRequest registrationRequest = TokenRegistrationRequest.builder()
+        TokenRegistrationRequestDTO registrationRequest = TokenRegistrationRequestDTO.builder()
                 .tokenID("123")
-                .userID("123")
                 .appVersion("1.0")
                 .platform("android")
                 .build();

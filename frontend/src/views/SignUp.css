@@ -1,0 +1,110 @@
+. {
+    font-family: 'Lexend', 'sans-serif';
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    color: white;
+    font-family: "Lexend", "sans-serif";
+    height: 50%;
+    padding: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 5rem;
+    background-color: rgba(255, 255, 255, 0.027);
+    backdrop-filter: blur(10px);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.089);
+    border-radius: 30px;
+}
+
+.signup-parent-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    align-items: center;
+}
+
+.signup-parent-container::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../public/images/04-Sky.png");
+    background-size: cover;
+    z-index: -1;
+}
+
+.signup-form-heading {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.signup-form > label {
+    margin-top: 1rem;
+}
+
+.signup-form > input:not([type="submit"]) {
+    min-height: 5%;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem;
+    box-shadow: 2px 2px 2px #3e3e3e;
+}
+
+#signup-form-submit {
+    margin-top: 2rem;
+    width: 50%;
+    background-color: white;
+    font-family: "Lexend", "sans-serif";
+    font-size: 1.1rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 2px 2px 2px #3e3e3e;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#signup-form-submit:hover {
+    background-color: rgba(186, 186, 186, 0.78);
+    color: #ffffff;
+}
+
+.signup-forgot {
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+
+#signup-create-account {
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: underline;
+}
+
+#signup-or-text {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#password-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.signup-error {
+    font-size: 1rem;
+    color: #fa6161;
+}
