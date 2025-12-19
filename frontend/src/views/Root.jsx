@@ -4,16 +4,18 @@ import "./rootStyle.css"
 export default function Root() {
     return (
         <div className="root-container-one">
-            <Navbar />
-            <div className="root-container-two">
-                <div className="root-container-info">
-                    <p className="p-info-bold">Anticipate v1</p>
-                    <p className="p-info-sub">Your eyes when you're not there</p>
-                    <button className="buy-now-button">Buy now</button>
-                </div>
-                <span className="root-circle">
+            <div id="root-container-four">
+                <Navbar/>
+                <div className="root-container-two">
+                    <div className="root-container-info">
+                        <p className="p-info-bold">Anticipate v1</p>
+                        <p className="p-info-sub">Your eyes when you're not there</p>
+                        <button className="buy-now-button">Buy now</button>
+                    </div>
+                    <span className="root-circle">
                 </span>
-                <img src="/images/pico.png" alt="Anticipate Device" className="pico-image"/>
+                    <img src="/images/pico.png" alt="Anticipate Device" className="pico-image"/>
+                </div>
             </div>
             <div className="root-container-three">
                 <p className="p-info-bold-2">Who are we?</p>

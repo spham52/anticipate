@@ -1,17 +1,25 @@
 . {
     font-family: 'Lexend', 'sans-serif';
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
 }
 
 .root-container-two {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: #6063A3;
-    height: 65%;
+    height: 100%;
     overflow: hidden;
     position: relative;
     gap: 2rem;
     padding: 2rem 5vw;
+    margin-top: -40px;
 }
 
 .root-container-one {
@@ -21,7 +29,7 @@
 .root-circle {
     height: 40vw;
     width: 40vw;
-    background-color: #D9D9D9;
+    background-color: #214A92;
     border-radius: 50%;
     position: absolute;
     right: -5vw;
@@ -123,4 +131,12 @@
 
 * {
     -ms-overflow-style: none;
+}
+
+#root-container-four {
+    display: flex;
+    flex-direction: column;
+    background-image: url("../../public/images/04-Sky.png");
+    background-color: black;
+    height: 70%
 }
