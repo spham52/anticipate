@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorRegistrationRequest;
+import com.example.smsserver.dto.SensorRegistrationRequestDTO;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.model.Sensor;
@@ -35,7 +35,7 @@ class SensorServiceImplTest {
         String sensorID = "sensor-123";
         String userID = "user-123";
 
-        SensorRegistrationRequest sensorRegistrationRequest = SensorRegistrationRequest.builder()
+        SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
                 .userID(userID)
                 .build();
@@ -52,7 +52,7 @@ class SensorServiceImplTest {
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
 
         assertThrows(SensorAlreadyAssociatedWithUserException.class,
-                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequest));
+                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, ));
     }
 
     @Test
@@ -60,7 +60,7 @@ class SensorServiceImplTest {
         String sensorID = "sensor-123";
         String userID = "user-123";
 
-        SensorRegistrationRequest sensorRegistrationRequest = SensorRegistrationRequest.builder()
+        SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
                 .userID(userID)
                 .build();
@@ -68,7 +68,7 @@ class SensorServiceImplTest {
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.empty());
 
         assertThrows(SensorDoesNotExistException.class,
-                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequest));
+                () -> sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, userID));
     }
 
     @Test
@@ -76,7 +76,7 @@ class SensorServiceImplTest {
         String sensorID = "sensor-123";
         String userID = "user-123";
 
-        SensorRegistrationRequest sensorRegistrationRequest = SensorRegistrationRequest.builder()
+        SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
                 .userID(userID)
                 .build();
@@ -91,9 +91,9 @@ class SensorServiceImplTest {
                 .build();
 
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
-        when(userService.getUserById(userID)).thenReturn(user);
+        when(userService.findUserById(userID)).thenReturn(user);
 
-        sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequest);
+        sensorServiceImpl.associateUserWithSensor(sensorRegistrationRequestDTO, );
         assertEquals(user, sensor.getUser());
         verify(sensorRepository).save(sensor);
     }
