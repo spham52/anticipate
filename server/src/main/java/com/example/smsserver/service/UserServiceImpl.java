@@ -3,7 +3,6 @@ package com.example.smsserver.service;
 import com.example.smsserver.dto.UserRegistrationRequestDTO;
 import com.example.smsserver.exception.UserAlreadyExistsException;
 import com.example.smsserver.exception.UserNotFoundException;
-import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.User;
 import com.example.smsserver.repository.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
