@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,9 +37,7 @@ class UserServiceImplTest {
 
         when(userRepository.existsByEmailIgnoreCase("user@example.com")).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(request);
-        });
+        assertThrows(IllegalArgumentException.class, () -> userService.registerUser(request));
 
         verify(userRepository, never()).save(any());
     }
@@ -51,9 +48,7 @@ class UserServiceImplTest {
         UserRegistrationRequestDTO request = buildUserRegistrationRequestDTO();
         when(userRepository.existsByUsernameIgnoreCase("john")).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(request);
-        });
+        assertThrows(IllegalArgumentException.class, () -> userService.registerUser(request));
 
         verify(userRepository, never()).save(any());
     }
@@ -105,9 +100,7 @@ class UserServiceImplTest {
 
         UserRegistrationRequestDTO userRegistrationRequestDTO = buildUserRegistrationRequestDTO();
 
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.registerUser(userRegistrationRequestDTO);
-        });
+        assertThrows(UserAlreadyExistsException.class, () -> userService.registerUser(userRegistrationRequestDTO));
     }
 
     @Test
@@ -117,9 +110,7 @@ class UserServiceImplTest {
                         null, null, null));
 
         UserRegistrationRequestDTO userRegistrationRequestDTO = buildUserRegistrationRequestDTO();
-        assertThrows(RuntimeException.class, () -> {
-            userService.registerUser(userRegistrationRequestDTO);
-        });
+        assertThrows(RuntimeException.class, () -> userService.registerUser(userRegistrationRequestDTO));
     }
 
     UserRegistrationRequestDTO buildUserRegistrationRequestDTO() {

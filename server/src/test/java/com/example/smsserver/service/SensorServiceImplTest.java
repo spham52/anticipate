@@ -97,4 +97,6 @@ class SensorServiceImplTest {
         assertEquals(user, sensor.getUser());
         verify(sensorRepository).save(sensor);
     }
+
+
 }
