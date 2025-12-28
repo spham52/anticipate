@@ -60,25 +60,26 @@ class UserServiceImplTest {
 
     @Test
         // test case when the UserRegistrationRequest is valid
-    void registerUser_whenValidUser() {
-        UserRegistrationRequestDTO request = UserRegistrationRequestDTO.builder()
-                .email("user@example.com")
-                .username("john")
-                .password("test123")
-                .build();
+    void registerUser_whenValidUser() throws FirebaseAuthException {
+        UserRegistrationRequestDTO request = buildUserRegistrationRequestDTO();
 
+        // validity checks return valid
         when(userRepository.existsByUsernameIgnoreCase("john")).thenReturn(false);
         when(userRepository.existsByEmailIgnoreCase("user@example.com")).thenReturn(false);
 
-        userService.registerUser(request);
+        // mock createFirebaseUser func
+        UserRecord userRecord = mock(UserRecord.class);
+        when(userRecord.getUid()).thenReturn("uid-123");
+        when(firebaseAuth.createUser(any(CreateRequest.class))).thenReturn(userRecord);
 
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(userRepository).save(userCaptor.capture());
-
-        User savedUser = userCaptor.getValue();
+        // build User, return in userRepository and userService
+        User user = buildUser();
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        User savedUser = userService.registerUser(request);
 
         assert (savedUser.getUsername().equals("john"));
         assert (savedUser.getEmail().equals("user@example.com"));
+        assert (savedUser.getUserID().equals("uid-123"));
 
     }
 
@@ -124,7 +125,15 @@ class UserServiceImplTest {
     UserRegistrationRequestDTO buildUserRegistrationRequestDTO() {
         return UserRegistrationRequestDTO.builder()
                 .email("user@example.com")
+                .username("john")
                 .password("testing123")
+                .build();
+    }
+
+    User buildUser() {
+        return User.builder()
+                .email("user@example.com")
+                .username("john")
                 .build();
     }
 }
