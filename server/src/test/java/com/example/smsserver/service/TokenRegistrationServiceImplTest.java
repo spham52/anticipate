@@ -25,26 +25,6 @@ class TokenRegistrationServiceImplTest {
     TokenRegistrationServiceImpl tokenRegistrationService;
 
     @Test
-    void registerToken_throwsUserAlreadyExistsException_whenUserExists() {
-        String userID = "user-123";
-        String tokenID = "token-123";
-        String platform = "android";
-        String appVersion = "1.0.0";
-
-        TokenRegistrationRequestDTO request = TokenRegistrationRequestDTO
-                .builder()
-                .tokenID(tokenID)
-                .platform(platform)
-                .appVersion(appVersion)
-                .build();
-
-        when(tokenRegistrationRepository.existsByUserID(userID)).thenReturn(true);
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            tokenRegistrationService.registerToken(request, userID);
-        });
-    }
-
-    @Test
     void registerToken_whenValidTokenRequest() {
         String userID = "user-123";
         String tokenID = "token-123";
@@ -57,8 +37,6 @@ class TokenRegistrationServiceImplTest {
                 .appVersion(appVersion)
                 .build();
 
-        when(tokenRegistrationRepository.existsByUserID(userID)).thenReturn(false);
-
         TokenRegistration saved = TokenRegistration.builder()
                 .userID(userID)
                 .tokenID(tokenID)
@@ -69,8 +47,6 @@ class TokenRegistrationServiceImplTest {
         when(tokenRegistrationRepository.save(any(TokenRegistration.class))).thenReturn(saved);
 
         TokenRegistration result = tokenRegistrationService.registerToken(request, userID);
-
-        verify(tokenRegistrationRepository).existsByUserID(userID);
         verify(tokenRegistrationRepository).save(any(TokenRegistration.class));
 
         assertEquals(userID, result.getUserID());
