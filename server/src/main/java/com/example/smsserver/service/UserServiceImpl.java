@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
