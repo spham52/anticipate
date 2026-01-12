@@ -2,7 +2,7 @@
   <h1>anticipate</h1>
 </div>
 
-Anticipate is a device for the ADHD. For those that forget things as they leave the house. For those in need of reminding when they open a cookie jar, etc.
+Anticipate is a device for the ADHD. For those that forget things as they leave the house. For remembering your weight loss goals when opening the cookie jar, etc.
 
 Using the Pico Pi W board in combination with a motion sensor, anticipate sends users notifications to their device from anywhere over the internet when motion is sensed.
 
