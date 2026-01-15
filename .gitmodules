@@ -1,0 +1,3 @@
+[submodule "pico/pico_wifi_provisioner"]
+	path = pico/pico_wifi_provisioner
+	url = https://github.com/CooperP1309/pico_wifi_provisioner.git
