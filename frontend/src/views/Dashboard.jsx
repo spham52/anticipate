@@ -57,6 +57,18 @@ export default function Dashboard() {
                     <div id="dashboard-left-sidebar"></div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
+                {showAddDeviceModal &&
+                    <div id="dashboard-add-device-modal-container">
+                    <div className="glass" id="dashboard-add-device-modal-container-2">
+                        <button id="add-device-modal-x-button"
+                                onClick={() => {setShowAddDeviceModal(false)}}>X</button>
+                        <div id="add-device-modal-input-container">
+                            <p id="add-device-modal-p">Enter the device ID on the back of the box</p>
+                            <input id={"add-device-modal-input"} type="text"/>
+                        </div>
+                        <input id="add-device-modal-submit" type="submit" value="Add Device"/>
+                    </div>
+                </div>}
             </div>
         </>
     );

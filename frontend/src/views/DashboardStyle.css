@@ -143,8 +143,8 @@
 }
 
 #dashboard-add-device-button {
+    padding: 0.8rem 1rem;
     width: 10%;
-    height: 100%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -156,6 +156,7 @@
     justify-content: center;
     font-weight: 300;
     font-size: 1rem;
+    min-width: 15%;
 }
 
 .glass {
@@ -166,4 +167,76 @@
     border-right: none;
     border-bottom: none;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.089);
+}
+
+#dashboard-add-device-modal-container {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.55);
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dashboard-add-device-modal-container-2 {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 50%;
+    min-height: 20%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    animation: scaleIn 0.3s ease;
+}
+
+#add-device-modal-x-button {
+    margin-top: 0.5rem;
+    margin-left: auto;
+    height: 25%;
+    color: white;
+    background: none;
+    border: none;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#add-device-modal-input-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#add-device-modal-p {
+    margin-left: auto;
+    margin-right: auto;
+    width: 35%;
+}
+
+#add-device-modal-submit {
+    margin-bottom: 0;
+    margin-top: 2rem;
+    width: 20%;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#add-device-modal-input {
+    border-radius: 10px;
+    border: none;
+    padding: 0.6rem;
 }
