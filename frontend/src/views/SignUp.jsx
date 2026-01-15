@@ -3,6 +3,7 @@ import "./SignUp.css"
 import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import {validate as validateEmail} from 'email-validator'
+import api from '../api/axios.jsx'
 
 export default function SignUp() {
     const [errors, setErrors] = useState({});
@@ -39,14 +40,7 @@ export default function SignUp() {
 
         if (isValid) {
             try {
-                const response = await fetch('http://localhost:8080/user/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
+                const response = await api.post('/user/register');
                 if (response.ok) {
                     navigate('/login');
                 }
