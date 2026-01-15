@@ -1,3 +1,7 @@
+* {
+    font-family: "Lexend", "sans-serif";
+}
+
 #dashboard-container-1 {
     width: 100%;
     height: 10%;
@@ -91,7 +95,6 @@
 
 #dashboard-selected-device {
     color: white;
-    font-family: "Lexend", sans-serif;
     font-size: 1rem;
     font-weight: 300;
 }
@@ -137,4 +140,30 @@
 
 .dashboard-dropdown-item.selected {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+#dashboard-add-device-button {
+    width: 10%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    color: white;
+    margin-left: 1rem;
+    outline: none;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+.glass {
+    background-color: rgba(255, 255, 255, 0.027);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: none;
+    border-bottom: none;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.089);
 }
