@@ -5,13 +5,12 @@ import com.example.smsserver.service.NotificationService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // RestController used when a sensor is triggered. The PICO device will then send
 // a HTTP request to the endpoint, which in turn calls a function to notify the user's device
-@RestController("/notifications")
+@RestController()
+@RequestMapping("/notification")
 @RequiredArgsConstructor
 public class NotificationController {
     private final NotificationService notificationService;

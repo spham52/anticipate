@@ -2,13 +2,16 @@ import {useState} from "react";
 import {useAuth} from "../firebase/AuthProvider";
 import Navbar from "../components/Navbar";
 import "./DashboardStyle.css";
+import api from "../api/axios"
 
 export default function Dashboard() {
     const {user} = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedDevice, setSelectedDevice] = useState("Device 1");
 
-    const devices = ["Device 1", "Device 2", "Device 3", "Device 4"];
+    const devices = [];
+    const hasDevice = devices.length > 0 ? "Device 1" : "No devices found";
+    const [selectedDevice, setSelectedDevice] = useState(hasDevice);
+    const [showAddDeviceModal, setShowAddDeviceModal] = useState(false);
 
     const handleDeviceSelect = (device) => {
         setSelectedDevice(device);
@@ -33,7 +36,7 @@ export default function Dashboard() {
                         </div>
                         {isDropdownOpen && (
                             <div id="dashboard-dropdown-menu">
-                                {devices.map((device) => (
+                                { devices.map((device) => (
                                     <div
                                         key={device}
                                         className={`dashboard-dropdown-item ${selectedDevice === device ? "selected" : ""}`}
@@ -47,12 +50,26 @@ export default function Dashboard() {
                             </div>
                         )}
                     </div>
+                    <button id="dashboard-add-device-button" className="glass"
+                            onClick={() => setShowAddDeviceModal(true)}>Add Device</button>
                 </div>
                 <div id="dashboard-container-2">
                     <div id="dashboard-left-sidebar"></div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
+                {showAddDeviceModal &&
+                    <div id="dashboard-add-device-modal-container">
+                    <div className="glass" id="dashboard-add-device-modal-container-2">
+                        <button id="add-device-modal-x-button"
+                                onClick={() => {setShowAddDeviceModal(false)}}>X</button>
+                        <div id="add-device-modal-input-container">
+                            <p id="add-device-modal-p">Enter the device ID on the back of the box</p>
+                            <input id={"add-device-modal-input"} type="text"/>
+                        </div>
+                        <input id="add-device-modal-submit" type="submit" value="Add Device"/>
+                    </div>
+                </div>}
             </div>
         </>
     );
-}
+};
