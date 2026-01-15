@@ -12,3 +12,6 @@ server/src/main/resources/application.properties
 
 # Firebase / other credentials
 server/src/main/resources/credentials/
+
+# CMake build output
+/pico/build/
