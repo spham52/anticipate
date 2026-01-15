@@ -1,0 +1,3 @@
+[submodule "pico/wifi_provisioner/libs/pico-littlefs"]
+	path = pico/wifi_provisioner/libs/pico-littlefs
+	url = https://github.com/lurk101/pico-littlefs

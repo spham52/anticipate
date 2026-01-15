@@ -1,0 +1,5 @@
+/home/cooperp/projects/anticipate/pico/build/pioasm-install/pioasm/pioasm
+/home/cooperp/projects/anticipate/pico/build/pioasm-install/pioasm/pioasmTargets.cmake
+/home/cooperp/projects/anticipate/pico/build/pioasm-install/pioasm/pioasmTargets-release.cmake
+/home/cooperp/projects/anticipate/pico/build/pioasm-install/pioasm/pioasmConfig.cmake
+/home/cooperp/projects/anticipate/pico/build/pioasm-install/pioasm/pioasmConfigVersion.cmake
