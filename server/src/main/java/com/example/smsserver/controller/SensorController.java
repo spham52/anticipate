@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/sensors")
+@RestController()
+@RequestMapping("/sensor")
 @RequiredArgsConstructor
 // controller associating users with sensor
 public class SensorController {
