@@ -15,3 +15,6 @@ server/src/main/resources/credentials/
 
 # CMake build output
 /pico/build/
+
+# Quick build bash script
+/pico/dev_build.sh
