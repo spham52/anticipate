@@ -45,7 +45,7 @@ export default function SignUp() {
                     navigate('/login');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                setErrors({ api: error.response?.data?.message });
             }
         }
     }
