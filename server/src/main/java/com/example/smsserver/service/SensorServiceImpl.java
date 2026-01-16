@@ -38,6 +38,7 @@ public class SensorServiceImpl implements SensorService {
         sensorRepository.save(sensor);
     }
 
+    // find all notifications associated with a specific sensor
     @Override
     public List<SensorNotification> findAllNotificationsBySensor(Sensor sensor, String userID) {
         if (!sensor.getUser().getUserID().equals(userID)) {
@@ -49,6 +50,7 @@ public class SensorServiceImpl implements SensorService {
                 findSensorNotificationBySensorIdOrderByTimestampDesc(sensor.getId());
     }
 
+    // save notification received from a sensor into DB
     @Override
     public void saveNotification(SensorNotificationDTO notification) {
         LocalDateTime time = LocalDateTime.now();
