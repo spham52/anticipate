@@ -2,6 +2,7 @@ package com.example.smsserver.service;
 
 import com.example.smsserver.dto.SensorNotificationDTO;
 import com.example.smsserver.dto.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.SensorResponseDTO;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.SensorNotification;
 import com.example.smsserver.model.User;
@@ -19,4 +20,6 @@ public interface SensorService {
     Sensor findSensorById(String sensorId);
 
     List<Sensor> findSensorsByUser(User user);
+
+    List<SensorResponseDTO> findSensorsDTOByUser(User user);
 }
