@@ -6,14 +6,12 @@ const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 });
 
-api.interceptors.request.use(async (config) => {
-    const user = useAuth();
-
-    if (user) {
-        const token = await user.getIdToken();
-        config.headers.Authorization = `Bearer ${token}`;
+export const setAuthToken = (token) => {
+    if (token) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+        delete api.defaults.headers.common['Authorization'];
     }
-    return config;
-})
+}
 
 export default api;

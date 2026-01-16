@@ -1,22 +1,59 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAuth} from "../firebase/AuthProvider";
 import Navbar from "../components/Navbar";
 import "./DashboardStyle.css";
-import api from "../api/axios"
+import { registerUserWithSensor, findDeviceFromUser } from "../api/services/SensorService"
 
 export default function Dashboard() {
     const {user} = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const devices = [];
-    const hasDevice = devices.length > 0 ? "Device 1" : "No devices found";
-    const [selectedDevice, setSelectedDevice] = useState(hasDevice);
+    const [devices, setDevices] = useState([]);
+    const [selectedDevice, setSelectedDevice] = useState("No devices found");
     const [showAddDeviceModal, setShowAddDeviceModal] = useState(false);
+    const [sensorID, setSensorID] = useState("");
+    const [addDeviceError, setAddDeviceError] = useState("");
 
     const handleDeviceSelect = (device) => {
         setSelectedDevice(device);
         setIsDropdownOpen(false);
     };
+
+    const handleAddDevice = async () => {
+        if (sensorID.length === 0) {
+            setAddDeviceError("You must specify a sensor ID.");
+            return;
+        }
+
+        try {
+            setAddDeviceError("");
+            await registerUserWithSensor(sensorID);
+            await fetchDevices();
+            setShowAddDeviceModal(false);
+        } catch (error) {
+            setAddDeviceError(error.response?.data?.message || "Failed to add device!");
+        }
+    }
+
+    const fetchDevices = async () => {
+        const response = await findDeviceFromUser();
+        console.log(response);
+        setDevices(response);
+    }
+
+    useEffect(() => {
+        if (user) {
+            fetchDevices();
+        }
+    }, [user])
+
+    useEffect(() => {
+        if (devices.length > 0) {
+            setSelectedDevice(devices[0].id);
+        } else {
+            setSelectedDevice("No devices found");
+        }
+    }, [devices])
 
     return (
         <>
@@ -38,13 +75,14 @@ export default function Dashboard() {
                             <div id="dashboard-dropdown-menu">
                                 { devices.map((device) => (
                                     <div
-                                        key={device}
-                                        className={`dashboard-dropdown-item ${selectedDevice === device ? "selected" : ""}`}
+                                        key={device.id}
+                                        className={`dashboard-dropdown-item 
+                                        ${selectedDevice === device.id ? "selected" : ""}`}
                                         onClick={() => {
-                                            handleDeviceSelect(device);
+                                            handleDeviceSelect(device.id);
                                         }}
                                     >
-                                        {device}
+                                        {device.id}
                                     </div>
                                 ))}
                             </div>
@@ -58,15 +96,20 @@ export default function Dashboard() {
                     <div id="dashboard-right-sidebar"></div>
                 </div>
                 {showAddDeviceModal &&
-                    <div id="dashboard-add-device-modal-container">
-                    <div className="glass" id="dashboard-add-device-modal-container-2">
+                    <div id="dashboard-add-device-modal-container"
+                         onClick={() => setShowAddDeviceModal(false)}>
+                    <div className="glass" id="dashboard-add-device-modal-container-2"
+                         onClick={(e) => e.stopPropagation()}>
                         <button id="add-device-modal-x-button"
                                 onClick={() => {setShowAddDeviceModal(false)}}>X</button>
                         <div id="add-device-modal-input-container">
                             <p id="add-device-modal-p">Enter the device ID on the back of the box</p>
-                            <input id={"add-device-modal-input"} type="text"/>
+                            <input id={"add-device-modal-input"} type="text"
+                                   onChange={(e) => setSensorID(e.target.value)} />
                         </div>
-                        <input id="add-device-modal-submit" type="submit" value="Add Device"/>
+                        {addDeviceError && <p id="add-device-modal-error">{addDeviceError}</p>}
+                        <input id="add-device-modal-submit" type="submit" value="Add Device"
+                        onClick={handleAddDevice}/>
                     </div>
                 </div>}
             </div>
