@@ -58,8 +58,10 @@ export default function Dashboard() {
                     <div id="dashboard-right-sidebar"></div>
                 </div>
                 {showAddDeviceModal &&
-                    <div id="dashboard-add-device-modal-container">
-                    <div className="glass" id="dashboard-add-device-modal-container-2">
+                    <div id="dashboard-add-device-modal-container"
+                         onClick={() => setShowAddDeviceModal(false)}>
+                    <div className="glass" id="dashboard-add-device-modal-container-2"
+                         onClick={(e) => e.stopPropagation()}>
                         <button id="add-device-modal-x-button"
                                 onClick={() => {setShowAddDeviceModal(false)}}>X</button>
                         <div id="add-device-modal-input-container">
