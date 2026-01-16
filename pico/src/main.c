@@ -46,6 +46,16 @@ int main() {
         printf("    ssid: \"%s\"\n", wifi_credentials.ssid);
         fflush(stdout);
         printf("    password: \"%s\"\n", wifi_credentials.password);
+
+        cyw43_arch_enable_sta_mode();
+        cyw43_arch_init_with_country(CYW43_COUNTRY_AUS);
+        
+            int err = cyw43_arch_connect(wifi_credentials.ssid, wifi_credentials.password, CYW43_AUTH_WPA2_PSK, true);
+        if (err == 0) {
+            printf("Connected to WiFi!\n");
+        } else {
+            printf("Failed to connect, error: %d\n", err);
+        }
     }
 
     return 0;
