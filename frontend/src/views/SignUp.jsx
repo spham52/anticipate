@@ -40,8 +40,8 @@ export default function SignUp() {
 
         if (isValid) {
             try {
-                const response = await api.post('/user/register');
-                if (response.ok) {
+                const response = await api.post('/user/register', data);
+                if (response.status === 200 || response.status === 201) {
                     navigate('/login');
                 }
             } catch (error) {
