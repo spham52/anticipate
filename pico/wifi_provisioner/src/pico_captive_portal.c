@@ -48,7 +48,7 @@ const char *PORTAL_PAGE_BODY =
     "#status{margin-top:10px;text-align:center;font-size:13px;color:#c00;}"
     "</style></head>"
     "<body><div class=\"box\">"
-    "<h2>Pico - Wi-Fi Login</h2>"
+    "<h2>Anticipate - Wi-Fi Login</h2>"
     "<form method=\"post\">"
     "<input class=\"full\" type=\"text\" name=\"wifi\" placeholder=\"Enter SSID\">"
     "<div style=\"position:relative\">"
