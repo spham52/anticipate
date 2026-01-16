@@ -1,6 +1,7 @@
 package com.example.smsserver.controller;
 
 import com.example.smsserver.dto.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.SensorResponseDTO;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.SensorNotification;
 import com.example.smsserver.model.User;
@@ -38,15 +39,14 @@ public class SensorController {
                                                                    @AuthenticationPrincipal String userID) {
         Sensor sensor = sensorService.findSensorById(sensorID);
         List<SensorNotification> sensorNotifications = sensorService.findAllNotificationsBySensor(sensor, userID);
-
         return new ResponseEntity<>(sensorNotifications.toString(), HttpStatus.OK);
     }
 
     // get all sensors owned by a user
     @GetMapping
-    public ResponseEntity<String> getAllSensorsByUser(@AuthenticationPrincipal String userID) {
+    public ResponseEntity<List<SensorResponseDTO>> getAllSensorsByUser(@AuthenticationPrincipal String userID) {
         User user = userService.findUserById(userID);
-        List<Sensor> sensors = sensorService.findSensorsByUser(user);
-        return new ResponseEntity<>(sensors.toString(), HttpStatus.OK);
+        List<SensorResponseDTO> sensors = sensorService.findSensorsDTOByUser(user);
+        return new ResponseEntity<>(sensors, HttpStatus.OK);
     }
 }
