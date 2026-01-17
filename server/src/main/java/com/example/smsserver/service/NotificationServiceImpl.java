@@ -1,9 +1,8 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotificationDTO;
+import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.model.Sensor;
-import com.example.smsserver.repository.SensorRepository;
 import com.example.smsserver.repository.TokenRegistrationRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;

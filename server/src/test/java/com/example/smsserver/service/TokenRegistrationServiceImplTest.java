@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.TokenRegistrationRequestDTO;
+import com.example.smsserver.dto.Token.TokenRegistrationRequestDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.repository.TokenRegistrationRepository;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,11 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.TokenRegistrationRequestDTO;
+import com.example.smsserver.dto.Token.TokenRegistrationRequestDTO;
 import com.example.smsserver.service.TokenRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
