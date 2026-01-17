@@ -1,4 +1,4 @@
-package com.example.smsserver.dto;
+package com.example.smsserver.dto.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

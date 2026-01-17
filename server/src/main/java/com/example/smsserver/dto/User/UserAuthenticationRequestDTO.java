@@ -1,4 +1,4 @@
-package com.example.smsserver.dto;
+package com.example.smsserver.dto.User;
 
 import lombok.Builder;
 import lombok.Data;

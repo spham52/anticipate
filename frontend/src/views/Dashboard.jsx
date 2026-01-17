@@ -96,12 +96,13 @@ export default function Dashboard() {
                     <div id="dashboard-left-sidebar">
                         <p id="dashboard-left-sidebar-p">Device History</p>
                         <div id="dashboard-left-sidebar-row">
-                            <p id="dashboard-left-sidebar-time">10:32AM</p>
+                            <p id="dashboard-left-sidebar-time">10:32AM 17/01/2026</p>
                             <p id="dashboard-left-sidebar-motion">Motion detected</p>
                         </div>
                     </div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
+
                 {showAddDeviceModal &&
                     <div id="dashboard-add-device-modal-container"
                          onClick={() => setShowAddDeviceModal(false)}>
@@ -122,6 +123,7 @@ export default function Dashboard() {
                                    onClick={handleAddDevice}/>
                         </div>
                     </div>}
+
             </div>
         </>
     );
