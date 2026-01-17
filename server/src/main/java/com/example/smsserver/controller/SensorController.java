@@ -36,11 +36,11 @@ public class SensorController {
 
     // get notification history from a specific sensor
     @GetMapping("/{sensorID}/history")
-    public ResponseEntity<String> getNotificationHistoryBySensorID(@PathVariable String sensorID,
+    public ResponseEntity<List<SensorHistoryDTO>> getNotificationHistoryBySensorID(@PathVariable String sensorID,
                                                                    @AuthenticationPrincipal String userID) {
         Sensor sensor = sensorService.findSensorById(sensorID);
         List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensor, userID);
-        return new ResponseEntity<>(sensorNotifications.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(sensorNotifications, HttpStatus.OK);
     }
 
     // get all sensors owned by a user
