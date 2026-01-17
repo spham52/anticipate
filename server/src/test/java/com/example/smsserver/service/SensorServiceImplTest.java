@@ -37,7 +37,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         User user = User.builder()
@@ -62,7 +61,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.empty());
@@ -78,7 +76,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         Sensor sensor = Sensor.builder()
