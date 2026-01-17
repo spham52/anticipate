@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useAuth} from "../firebase/AuthProvider";
 import Navbar from "../components/Navbar";
 import "./DashboardStyle.css";
-import {registerUserWithSensor, findDeviceFromUser} from "../api/services/SensorService"
+import {registerUserWithSensor, findDeviceFromUser, findNotificationHistoryFromSensor} from "../api/services/SensorService"
 
 export default function Dashboard() {
     const {user} = useAuth();
@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [showAddDeviceModal, setShowAddDeviceModal] = useState(false);
     const [sensorID, setSensorID] = useState("");
     const [addDeviceError, setAddDeviceError] = useState("");
+    const [deviceHistory, setDeviceHistory] = useState([]);
 
     const handleDeviceSelect = (device) => {
         setSelectedDevice(device);
@@ -37,8 +38,12 @@ export default function Dashboard() {
 
     const fetchDevices = async () => {
         const response = await findDeviceFromUser();
-        console.log(response);
         setDevices(response);
+    }
+
+    const fetchDeviceHistory = async () => {
+        const response = await findNotificationHistoryFromSensor(selectedDevice);
+        console.log(response);
     }
 
     useEffect(() => {
@@ -50,6 +55,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (devices.length > 0) {
             setSelectedDevice(devices[0].id);
+            fetchDeviceHistory();
         } else {
             setSelectedDevice("No devices found");
         }

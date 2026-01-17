@@ -10,3 +10,8 @@ export const findDeviceFromUser = async () => {
     const response = await api.get("/sensor");
     return response.data;
 }
+
+export const findNotificationHistoryFromSensor = async (sensorID) => {
+    const response = await api.get("/sensor/" + sensorID + "/history");
+    return response.data;
+}
