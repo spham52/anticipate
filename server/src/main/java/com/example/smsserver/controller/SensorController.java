@@ -1,9 +1,10 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
+import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
+import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.Sensor.SensorResponseDTO;
 import com.example.smsserver.model.Sensor;
-import com.example.smsserver.model.SensorNotification;
 import com.example.smsserver.model.User;
 import com.example.smsserver.service.SensorService;
 import com.example.smsserver.service.UserService;
@@ -38,7 +39,7 @@ public class SensorController {
     public ResponseEntity<String> getNotificationHistoryBySensorID(@PathVariable String sensorID,
                                                                    @AuthenticationPrincipal String userID) {
         Sensor sensor = sensorService.findSensorById(sensorID);
-        List<SensorNotification> sensorNotifications = sensorService.findAllNotificationsBySensor(sensor, userID);
+        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensor, userID);
         return new ResponseEntity<>(sensorNotifications.toString(), HttpStatus.OK);
     }
 
