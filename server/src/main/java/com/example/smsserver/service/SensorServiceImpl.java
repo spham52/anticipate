@@ -1,8 +1,9 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotificationDTO;
-import com.example.smsserver.dto.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
+import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
+import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.Sensor.SensorResponseDTO;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.exception.UnauthorisedAccessException;
@@ -78,6 +79,14 @@ public class SensorServiceImpl implements SensorService {
     public List<SensorResponseDTO> findSensorsDTOByUser(User user) {
         return findSensorsByUser(user).stream()
                 .map(sensor -> new SensorResponseDTO(sensor.getId()))
+                .toList();
+    }
+
+    public List<SensorHistoryDTO> findAllNotificationsDTOBySensor(Sensor sensor, String userID) {
+        return findAllNotificationsBySensor(sensor, userID).stream()
+                .map(s -> new SensorHistoryDTO(s.getId(),
+                        s.getSensor().getId(),
+                        s.getTimestamp()))
                 .toList();
     }
 }
