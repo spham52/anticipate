@@ -5,6 +5,7 @@ import {useState} from "react";
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from "../firebase/Firebase.jsx";
 import { useNavigate } from "react-router-dom";
+import {saveFCMToken} from "../api/services/NotificationService"
 
 
 export default function Login() {
@@ -19,6 +20,7 @@ export default function Login() {
         signInWithEmailAndPassword(auth, email, password)
             .then((response) => {
                 navigate("/dashboard");
+                saveFCMToken();
             })
             .catch((error) => {
                 setError("Incorrect email or password. Please try again.");
