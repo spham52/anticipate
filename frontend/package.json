@@ -8,6 +8,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.2",
+    "date-fns": "^4.1.0",
     "email-validator": "^2.0.4",
     "firebase": "^12.6.0",
     "react": "^19.2.0",

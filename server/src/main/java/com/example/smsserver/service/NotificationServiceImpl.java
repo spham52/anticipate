@@ -7,8 +7,11 @@ import com.example.smsserver.repository.TokenRegistrationRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @RequiredArgsConstructor
 @Service
@@ -40,7 +43,10 @@ public class NotificationServiceImpl implements NotificationService {
 
         Message message = Message.builder()
                 .setToken(tokenRegistration.getTokenID())
-                .putData("notification", "notification")
+                .setNotification(Notification.builder()
+                        .setTitle("Motion detected")
+                        .setBody(sensorID + " has detected movement at " + Instant.now())
+                        .build())
                 .build();
 
         // save notification history into db
