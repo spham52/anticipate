@@ -1,6 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.SensorNotificationDTO;
+import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
 import com.example.smsserver.service.NotificationService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;

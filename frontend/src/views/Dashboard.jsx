@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useAuth} from "../firebase/AuthProvider";
 import Navbar from "../components/Navbar";
 import "./DashboardStyle.css";
-import { registerUserWithSensor, findDeviceFromUser } from "../api/services/SensorService"
+import {registerUserWithSensor, findDeviceFromUser, findNotificationHistoryFromSensor} from "../api/services/SensorService"
 
 export default function Dashboard() {
     const {user} = useAuth();
@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [showAddDeviceModal, setShowAddDeviceModal] = useState(false);
     const [sensorID, setSensorID] = useState("");
     const [addDeviceError, setAddDeviceError] = useState("");
+    const [deviceHistory, setDeviceHistory] = useState([]);
 
     const handleDeviceSelect = (device) => {
         setSelectedDevice(device);
@@ -37,8 +38,12 @@ export default function Dashboard() {
 
     const fetchDevices = async () => {
         const response = await findDeviceFromUser();
-        console.log(response);
         setDevices(response);
+    }
+
+    const fetchDeviceHistory = async () => {
+        const response = await findNotificationHistoryFromSensor(selectedDevice);
+        console.log(response);
     }
 
     useEffect(() => {
@@ -50,6 +55,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (devices.length > 0) {
             setSelectedDevice(devices[0].id);
+            fetchDeviceHistory();
         } else {
             setSelectedDevice("No devices found");
         }
@@ -73,7 +79,7 @@ export default function Dashboard() {
                         </div>
                         {isDropdownOpen && (
                             <div id="dashboard-dropdown-menu">
-                                { devices.map((device) => (
+                                {devices.map((device) => (
                                     <div
                                         key={device.id}
                                         className={`dashboard-dropdown-item 
@@ -89,29 +95,41 @@ export default function Dashboard() {
                         )}
                     </div>
                     <button id="dashboard-add-device-button" className="glass"
-                            onClick={() => setShowAddDeviceModal(true)}>Add Device</button>
+                            onClick={() => setShowAddDeviceModal(true)}>Add Device
+                    </button>
                 </div>
                 <div id="dashboard-container-2">
-                    <div id="dashboard-left-sidebar"></div>
+                    <div id="dashboard-left-sidebar">
+                        <p id="dashboard-left-sidebar-p">Device History</p>
+                        <div id="dashboard-left-sidebar-row">
+                            <p id="dashboard-left-sidebar-time">10:32AM 17/01/2026</p>
+                            <p id="dashboard-left-sidebar-motion">Motion detected</p>
+                        </div>
+                    </div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
+
                 {showAddDeviceModal &&
                     <div id="dashboard-add-device-modal-container"
                          onClick={() => setShowAddDeviceModal(false)}>
-                    <div className="glass" id="dashboard-add-device-modal-container-2"
-                         onClick={(e) => e.stopPropagation()}>
-                        <button id="add-device-modal-x-button"
-                                onClick={() => {setShowAddDeviceModal(false)}}>X</button>
-                        <div id="add-device-modal-input-container">
-                            <p id="add-device-modal-p">Enter the device ID on the back of the box</p>
-                            <input id={"add-device-modal-input"} type="text"
-                                   onChange={(e) => setSensorID(e.target.value)} />
+                        <div className="glass" id="dashboard-add-device-modal-container-2"
+                             onClick={(e) => e.stopPropagation()}>
+                            <button id="add-device-modal-x-button"
+                                    onClick={() => {
+                                        setShowAddDeviceModal(false)
+                                    }}>X
+                            </button>
+                            <div id="add-device-modal-input-container">
+                                <p id="add-device-modal-p">Enter the device ID on the back of the box</p>
+                                <input id={"add-device-modal-input"} type="text"
+                                       onChange={(e) => setSensorID(e.target.value)}/>
+                            </div>
+                            {addDeviceError && <p id="add-device-modal-error">{addDeviceError}</p>}
+                            <input id="add-device-modal-submit" type="submit" value="Add Device"
+                                   onClick={handleAddDevice}/>
                         </div>
-                        {addDeviceError && <p id="add-device-modal-error">{addDeviceError}</p>}
-                        <input id="add-device-modal-submit" type="submit" value="Add Device"
-                        onClick={handleAddDevice}/>
-                    </div>
-                </div>}
+                    </div>}
+
             </div>
         </>
     );

@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorNotificationDTO;
+import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.User;

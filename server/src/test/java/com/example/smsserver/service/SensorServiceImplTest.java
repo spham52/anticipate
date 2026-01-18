@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.model.Sensor;
@@ -37,7 +37,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         User user = User.builder()
@@ -62,7 +61,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         when(sensorRepository.findById(sensorID)).thenReturn(Optional.empty());
@@ -78,7 +76,6 @@ class SensorServiceImplTest {
 
         SensorRegistrationRequestDTO sensorRegistrationRequestDTO = SensorRegistrationRequestDTO.builder()
                 .sensorID(sensorID)
-                .userID(userID)
                 .build();
 
         Sensor sensor = Sensor.builder()

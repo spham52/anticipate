@@ -1,6 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.TokenRegistrationRequestDTO;
+import com.example.smsserver.dto.Token.TokenRegistrationRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
