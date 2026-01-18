@@ -289,3 +289,38 @@
     flex: 1;
     text-align: center;
 }
+
+#dashboard-left-sidebar-page-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: auto;
+}
+
+.page-button-prev {
+    color:white;
+    width: 30px;
+    margin-right: auto;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.page-button-prev:hover {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.page-button-next {
+    color:white;
+    width: 30px;
+    margin-left: auto;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.page-button-next:hover {
+    color: rgba(255, 255, 255, 0.68);
+}

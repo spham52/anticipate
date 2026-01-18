@@ -8,6 +8,7 @@ import {
     findNotificationHistoryFromSensor
 } from "../api/services/SensorService"
 import { format } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Dashboard() {
     const {user} = useAuth();
@@ -85,7 +86,7 @@ export default function Dashboard() {
                         <div id="dashboard-dropdown-header">
                             <span id="dashboard-selected-device">{selectedDevice}</span>
                             <img
-                                src="/images/polygon-triangle.png"
+                                src="/icons/polygon-triangle.png"
                                 id="dashboard-polygon-triangle"
                                 className={isDropdownOpen ? "rotated" : ""}
                                 alt="arrow pointing down for the drop menu"
@@ -127,6 +128,15 @@ export default function Dashboard() {
                                 <p id="dashboard-left-sidebar-motion">Motion detected</p>
                             </div>
                         ))}
+                        <div id="dashboard-left-sidebar-page-buttons">
+                            <ChevronLeft className="page-button-prev"
+                                         size={40}
+                                         strokeWidth={1.5}
+                                         cursor="pointer" />
+                            <ChevronRight className="page-button-next"
+                                          size={40} strokeWidth={1.5}
+                                          cursor="pointer" />
+                        </div>
                     </div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
