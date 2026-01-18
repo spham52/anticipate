@@ -2,7 +2,12 @@ import {useEffect, useState} from "react";
 import {useAuth} from "../firebase/AuthProvider";
 import Navbar from "../components/Navbar";
 import "./DashboardStyle.css";
-import {registerUserWithSensor, findDeviceFromUser, findNotificationHistoryFromSensor} from "../api/services/SensorService"
+import {
+    registerUserWithSensor,
+    findDeviceFromUser,
+    findNotificationHistoryFromSensor
+} from "../api/services/SensorService"
+import { format } from 'date-fns';
 
 export default function Dashboard() {
     const {user} = useAuth();
@@ -37,12 +42,13 @@ export default function Dashboard() {
     }
 
     const fetchDevices = async () => {
-        const response = await findDeviceFromUser();
+        const response = await findDeviceFromUser(selectedDevice.id);
         setDevices(response);
     }
 
     const fetchDeviceHistory = async () => {
         const response = await findNotificationHistoryFromSensor(selectedDevice);
+        setDeviceHistory(response);
         console.log(response);
     }
 
@@ -55,11 +61,19 @@ export default function Dashboard() {
     useEffect(() => {
         if (devices.length > 0) {
             setSelectedDevice(devices[0].id);
-            fetchDeviceHistory();
         } else {
             setSelectedDevice("No devices found");
         }
     }, [devices])
+
+    useEffect(() => {
+        if (selectedDevice && selectedDevice !== "No devices found") {
+            fetchDeviceHistory();
+            user.getIdToken().then(idToken => {console.log(idToken)});
+        } else {
+            setSelectedDevice("No devices found");
+        }
+    }, [selectedDevice])
 
     return (
         <>
@@ -101,10 +115,18 @@ export default function Dashboard() {
                 <div id="dashboard-container-2">
                     <div id="dashboard-left-sidebar">
                         <p id="dashboard-left-sidebar-p">Device History</p>
-                        <div id="dashboard-left-sidebar-row">
-                            <p id="dashboard-left-sidebar-time">10:32AM 17/01/2026</p>
-                            <p id="dashboard-left-sidebar-motion">Motion detected</p>
-                        </div>
+                        {deviceHistory.length > 0 && deviceHistory.map((device) => (
+                            <div
+                                key={device.id}
+                                id="dashboard-left-sidebar-row"
+                            >
+                                <p id="dashboard-left-sidebar-time">
+                                    {format(new Date(device.timestamp),
+                                    'hh:mm a dd/MM/yyyy')}
+                                </p>
+                                <p id="dashboard-left-sidebar-motion">Motion detected</p>
+                            </div>
+                        ))}
                     </div>
                     <div id="dashboard-right-sidebar"></div>
                 </div>
