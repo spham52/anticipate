@@ -23,6 +23,7 @@ add_executable(app
 target_link_libraries(app
     pico_stdlib
     wifi_provisioner
+    pico_cyw43_arch_none
 )
 
 pico_enable_stdio_usb(app 1)
