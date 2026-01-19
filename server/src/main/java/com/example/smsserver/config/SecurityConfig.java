@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     // end points that can be accessed without authentication
-    private static final String[] WHITELISED_API_ENDPOINTS = {"/user/register"};
+    private static final String[] WHITELISED_API_ENDPOINTS = {"/user/register", "/notification/notify"};
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Value("${app.cors.allowed-origins}")
