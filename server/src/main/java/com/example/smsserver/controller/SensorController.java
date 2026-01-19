@@ -10,6 +10,10 @@ import com.example.smsserver.service.SensorService;
 import com.example.smsserver.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,8 +40,12 @@ public class SensorController {
 
     // get notification history from a specific sensor
     @GetMapping("/{sensorID}/history")
-    public ResponseEntity<List<SensorHistoryDTO>> getNotificationHistoryBySensorID(@PathVariable String sensorID,
-                                                                   @AuthenticationPrincipal String userID) {
+    public ResponseEntity<List<SensorHistoryDTO>> getNotificationHistoryBySensorID(
+            @PathVariable String sensorID,
+            @AuthenticationPrincipal String userID,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
         Sensor sensor = sensorService.findSensorById(sensorID);
         List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensor, userID);
         return new ResponseEntity<>(sensorNotifications, HttpStatus.OK);
