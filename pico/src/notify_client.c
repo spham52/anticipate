@@ -20,6 +20,15 @@ static const char *POST_REQUEST =
     "    \"sensorID\" : 123\n"
     "}\n";
 
+// other definitions
+#define TCP_PORT 8080
+ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 109);
+
+static int post_notification() {
+
+    return 0;
+}
+
 notify_client_t* pico_notify_client_init() {
 
     // calloc call justified for setup process where time efficiency is low priority
@@ -32,25 +41,27 @@ notify_client_t* pico_notify_client_init() {
     return notify_client;
 }
 
-int pico_notify_client_start(notify_client_t *notify_client) {
+static err_t pico_notify_client_start(void *arg) {
 
     notify_client_t *state = (notify_client_t*)arg;
+    state->remote_addr = server_ip;
 
     // connect to server port
-
-    DEBUG_printf("Connecting to %s port %u\n", ip4addr_ntoa(&state->remote_addr), TCP_PORT);
+    printf("Connecting to %s port %u\n", ip4addr_ntoa(&state->remote_addr), TCP_PORT);
 
     state->tcp_pcb = tcp_new_ip_type(IP_GET_TYPE(&state->remote_addr));
     if (!state->tcp_pcb) {
-        DEBUG_printf("failed to create pcb\n");
+        printf("failed to create pcb\n");
         return false;
     }
 
     tcp_arg(state->tcp_pcb, state);
+    /*
     tcp_poll(state->tcp_pcb, tcp_client_poll, POLL_TIME_S * 2);
     tcp_sent(state->tcp_pcb, tcp_client_sent);
     tcp_recv(state->tcp_pcb, tcp_client_recv);
     tcp_err(state->tcp_pcb, tcp_client_err);
+    */
 
     state->buffer_len = 0;
 
@@ -59,11 +70,24 @@ int pico_notify_client_start(notify_client_t *notify_client) {
     // these calls are a no-op and can be omitted, but it is a good practice to use them in
     // case you switch the cyw43_arch type later.
     cyw43_arch_lwip_begin();
-    err_t err = tcp_connect(state->tcp_pcb, &state->remote_addr, TCP_PORT, tcp_client_connected);
+    err_t err = tcp_connect(state->tcp_pcb, &state->remote_addr, TCP_PORT, notify_client_connected);
     cyw43_arch_lwip_end();
 
     return err == ERR_OK;
+}
 
+static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err) {
+    notify_client_t *state = (notify_client_t*)arg;
+    
+    
+    if (err != ERR_OK) {
+        printf("connect failed %d\n", err);
+        return err;
+    }
+
+    state->connected = true;
+    printf("Waiting for buffer from server\n");
+    return ERR_OK;
 }
 
 /*

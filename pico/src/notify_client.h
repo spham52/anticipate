@@ -7,18 +7,18 @@
 #include "wifi_provisioner.h"   // for err_t
 
 typedef struct {
-    struct tcp_pcb *server_pcb;
-    struct tcp_pcb *client_pcb;
-    bool complete;
-    uint8_t buffer_sent[BUF_SIZE];
-    uint8_t buffer_recv[BUF_SIZE];
+    struct tcp_pcb *tcp_pcb;
+    ip_addr_t remote_addr;
+    uint8_t buffer[BUF_SIZE];
+    int buffer_len;
     int sent_len;
-    int recv_len;
+    bool complete;
     int run_count;
+    bool connected;
 
 } notify_client_t;
 
-
+static int post_notification();
 
 // Initializing the tcp structs.
 //
@@ -30,7 +30,9 @@ notify_client_t* pico_notify_client_init();
 //
 // Sends an initial post request to the anticipate server to notify it
 // and waits for response to confirm notification was successful.
-int pico_notify_client_start(notify_client_t *notify_client);
+static err_t pico_notify_client_start(void *arg);
+
+static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err);
 
 /*
 // Call back function for accepted requests.

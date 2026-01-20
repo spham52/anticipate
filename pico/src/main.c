@@ -59,6 +59,11 @@ int main() {
     }
 
         // ATTEMPT AT SENDING PACKET TO SERVER
+    notify_client_t *notify_client = pico_notify_client_init();
+    if (notify_client == NULL) {
+        printf("[main] pico_notify_client_init failed\n");
+        return -1;
+    }
 
 
     return 0;

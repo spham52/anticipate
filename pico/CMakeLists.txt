@@ -17,6 +17,7 @@ add_subdirectory(wifi_provisioner)
 # 2) Build your real application entrypoint
 add_executable(app
     src/main.c
+    src/notify_client.c
 )
 
 # main.c includes wifi_provisioner.h, so include comes from the library PUBLIC includes.
