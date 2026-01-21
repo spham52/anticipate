@@ -18,21 +18,35 @@ typedef struct {
 
 } notify_client_t;
 
-static int post_notification();
-
 // Initializing the tcp structs.
 //
 // Heap allocates a new notify client instance.
 // Error if new instance failed.
-notify_client_t* pico_notify_client_init();
+notify_client_t* notify_client_init();
+
+// Handles notification posting logic.
+//
+// Invokes the notify client start function to begin, which connects to
+// the server. Upon connection, the tcp_connected callback posts to the server.
+err_t notify_client_post_notification(notify_client_t *notify_client);
 
 // Starting of the exchange with the anticipate server.
 //
-// Sends an initial post request to the anticipate server to notify it
-// and waits for response to confirm notification was successful.
-static err_t pico_notify_client_start(void *arg);
+// Sets up the tcp pcb and connects to the server ip and port. This in turn
+// will invoke the notify_client_connected callback upon success, which posts
+// the a notifcation to the server.
+static err_t notify_client_start(notify_client_t *notify_client);
 
+// Callback function for successful connection to server.
+//
+// Upon succcessful tcp connection to the server, this callback function sends 
+// the post notification to the server.
 static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err);
+
+// Closing of the notify client connection.
+//
+// Deallocates tcp callback functions and closes the tcp connection.
+static err_t notify_client_close(void *arg);
 
 /*
 // Call back function for accepted requests.

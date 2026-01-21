@@ -51,20 +51,25 @@ int main() {
         cyw43_arch_enable_sta_mode();
         
         if (cyw43_arch_wifi_connect_timeout_ms(wifi_credentials.ssid, wifi_credentials.password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-            printf("failed to connect.\n");
+            printf("[main] failed to connect.\n");
             exit(1);
         }
 
-        printf("Connected to WiFi!\n");
+        printf("[main] connected to WiFi successfully\n");
     }
 
-        // ATTEMPT AT SENDING PACKET TO SERVER
-    notify_client_t *notify_client = pico_notify_client_init();
+    // initialize notification client
+    notify_client_t *notify_client = notify_client_init();
     if (notify_client == NULL) {
-        printf("[main] pico_notify_client_init failed\n");
         return -1;
     }
 
+    // post notification to server (ASSUME SENSOR LOGIC HERE)
+    err_t error = notify_client_post_notification(notify_client);
+    if (error != ERR_OK) {
+        printf("[main] notification post failed with error code: %d\n", error);
+        return -1;
+    }
 
     return 0;
 }
