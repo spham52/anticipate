@@ -16,79 +16,153 @@ static const char *POST_REQUEST =
     "Content-Length: 24\r\n"
     "Connection: close\r\n"
     "\r\n"
-    "{\n"
-    "    \"sensorID\" : 123\n"
+    "{\n" 
+    " \"sensorID\" : 123\n"
     "}\n";
 
 // other definitions
 #define TCP_PORT 8080
-ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 109);
+ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 119);
 
-static int post_notification() {
-
-    return 0;
-}
-
-notify_client_t* pico_notify_client_init() {
+notify_client_t* notify_client_init() {
 
     // calloc call justified for setup process where time efficiency is low priority
     notify_client_t *notify_client = calloc(1, sizeof(notify_client_t));
-
     if (!notify_client) {
         return NULL;
     }
 
+    notify_client->remote_addr = server_ip;
+
     return notify_client;
 }
 
-static err_t pico_notify_client_start(void *arg) {
+err_t notify_client_post_notification(notify_client_t *notify_client) {
 
-    notify_client_t *state = (notify_client_t*)arg;
-    state->remote_addr = server_ip;
-
-    // connect to server port
-    printf("Connecting to %s port %u\n", ip4addr_ntoa(&state->remote_addr), TCP_PORT);
-
-    state->tcp_pcb = tcp_new_ip_type(IP_GET_TYPE(&state->remote_addr));
-    if (!state->tcp_pcb) {
-        printf("failed to create pcb\n");
-        return false;
+    // sending of post request called by connected callback
+    err_t err = notify_client_start(notify_client);
+    if (err != ERR_OK) {
+        printf("[notify_client] notify_client_start failed %d\n", err);
+        return err;
     }
 
-    tcp_arg(state->tcp_pcb, state);
+    while(1) {
+        cyw43_arch_poll();
+        sleep_ms(1);
+    }
+
+    notify_client_close(notify_client);
+
+    return ERR_OK;
+}
+
+static err_t notify_client_start(notify_client_t *notify_client) {
+
+    // connect to server port
+    printf("[notify_client] Connecting to %s port %u\n", ip4addr_ntoa(&notify_client->remote_addr), TCP_PORT);
+
+    notify_client->tcp_pcb = tcp_new_ip_type(IP_GET_TYPE(&notify_client->remote_addr));
+    if (!notify_client->tcp_pcb) {
+        printf("[notify_client] failed to create pcb\n");
+        return ERR_MEM;
+    }
+
+    tcp_arg(notify_client->tcp_pcb, notify_client);
     /*
-    tcp_poll(state->tcp_pcb, tcp_client_poll, POLL_TIME_S * 2);
-    tcp_sent(state->tcp_pcb, tcp_client_sent);
-    tcp_recv(state->tcp_pcb, tcp_client_recv);
-    tcp_err(state->tcp_pcb, tcp_client_err);
+    tcp_poll(notify_client->tcp_pcb, tcp_client_poll, POLL_TIME_S * 2);
+    tcp_sent(notify_client->tcp_pcb, tcp_client_sent);
+    tcp_recv(notify_client->tcp_pcb, tcp_client_recv);
+    tcp_err(notify_client->tcp_pcb, tcp_client_err);
     */
 
-    state->buffer_len = 0;
+    notify_client->buffer_len = 0;
 
     // cyw43_arch_lwip_begin/end should be used around calls into lwIP to ensure correct locking.
     // You can omit them if you are in a callback from lwIP. Note that when using pico_cyw_arch_poll
     // these calls are a no-op and can be omitted, but it is a good practice to use them in
     // case you switch the cyw43_arch type later.
     cyw43_arch_lwip_begin();
-    err_t err = tcp_connect(state->tcp_pcb, &state->remote_addr, TCP_PORT, notify_client_connected);
+    err_t err = tcp_connect(notify_client->tcp_pcb, &notify_client->remote_addr, TCP_PORT, notify_client_connected);
     cyw43_arch_lwip_end();
 
-    return err == ERR_OK;
+    return ERR_OK;
 }
 
 static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err) {
+    
     notify_client_t *state = (notify_client_t*)arg;
     
-    
     if (err != ERR_OK) {
-        printf("connect failed %d\n", err);
+        printf("[notify_client] connect failed %d\n", err);
         return err;
     }
 
     state->connected = true;
-    printf("Waiting for buffer from server\n");
+
+    // send the POST request
+    err = tcp_write(state->tcp_pcb, POST_REQUEST, strlen(POST_REQUEST), TCP_WRITE_FLAG_COPY);
+    if (err != ERR_OK) {
+        printf("[notify_client] notification post failed %d\n", err);
+        return err;
+    }
+
+    err = tcp_output(tpcb);
+    if (err != ERR_OK) {
+        printf("[notify_client] tcp_output failed %d\n", err);
+        return err;
+    }
+
+    printf("[notify_client] notification post sent successfully\n");
+    state->complete = false;
+
     return ERR_OK;
 }
+
+static err_t notify_client_close(void *arg) {
+
+    notify_client_t *state = (notify_client_t*)arg;
+    err_t err = ERR_OK;
+
+    // deallocating of tcp callback functions
+    if (state->tcp_pcb) {
+        tcp_arg(state->tcp_pcb, NULL);
+    }
+
+    // actual closing of the tcp connection
+    err = tcp_close(state->tcp_pcb);
+    if (err != ERR_OK) {
+        printf("[notify_client] close failed %d, calling abort\n", err);
+        tcp_abort(state->tcp_pcb);
+        err = ERR_ABRT;
+    }
+
+    state->tcp_pcb = NULL;
+    printf("[notify_client] Notification client closed successfully\n");
+
+    return err;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 err_t pico_captive_portal_accept(void *arg, struct tcp_pcb *client_pcb, err_t err) {
