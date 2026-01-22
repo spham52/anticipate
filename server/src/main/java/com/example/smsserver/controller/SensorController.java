@@ -40,13 +40,13 @@ public class SensorController {
 
     // get notification history from a specific sensor
     @GetMapping("/{sensorID}/history")
-    public ResponseEntity<List<SensorHistoryDTO>> getNotificationHistoryBySensorID(
+    public ResponseEntity<Page<SensorHistoryDTO>> getNotificationHistoryBySensorID(
             @PathVariable String sensorID,
             @AuthenticationPrincipal String userID,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsBySensorPageable(page,
+        Page<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsBySensorPageable(page,
                 size, sensorID, userID);
         return new ResponseEntity<>(sensorNotifications, HttpStatus.OK);
     }
@@ -54,7 +54,6 @@ public class SensorController {
     // get all sensors owned by a user
     @GetMapping
     public ResponseEntity<List<SensorResponseDTO>> getAllSensorsByUser(@AuthenticationPrincipal String userID) {
-        User user = userService.findUserById(userID);
         List<SensorResponseDTO> sensors = sensorService.findSensorsDTOByUser(userID);
         return new ResponseEntity<>(sensors, HttpStatus.OK);
     }

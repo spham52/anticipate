@@ -94,18 +94,19 @@ public class SensorServiceImpl implements SensorService {
     }
 
     // returns notification history of a sensor in pages
-    public List<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size,
+    public Page<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size,
                                                                        String sensorID, String userID) {
         checkSensorOwnership(sensorID, userID);
         // create pageable obj
         Pageable pageable = PageRequest.of(page, size);
 
         return sensorNotificationRepository.
-                findSensorNotificationBySensorIdOrderByTimestampDesc(sensorID, pageable).stream()
-                .map(s -> new SensorHistoryDTO(s.getId(),
-                        s.getSensor().getId(),
-                        s.getTimestamp())).
-                toList();
+                findSensorNotificationBySensorIdOrderByTimestampDesc(sensorID, pageable).map(s ->
+                        new SensorHistoryDTO(
+                                s.getId(),
+                                s.getSensor().getId(),
+                                s.getTimestamp()
+                        ));
     }
 
     public void checkSensorOwnership(String sensorID, String userID) {
