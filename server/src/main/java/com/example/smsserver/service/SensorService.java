@@ -24,6 +24,6 @@ public interface SensorService {
 
     List<SensorResponseDTO> findSensorsDTOByUser(String userID);
     List<SensorHistoryDTO> findAllNotificationsDTOBySensor(String sensorID, String userID);
-    List<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size, String sort,
+    List<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size,
                                                                        String sensorID, String userID);
 }

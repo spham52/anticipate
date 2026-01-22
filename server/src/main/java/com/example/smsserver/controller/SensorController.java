@@ -46,7 +46,8 @@ public class SensorController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensorID, userID);
+        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsBySensorPageable(page,
+                size, sensorID, userID);
         return new ResponseEntity<>(sensorNotifications, HttpStatus.OK);
     }
 
