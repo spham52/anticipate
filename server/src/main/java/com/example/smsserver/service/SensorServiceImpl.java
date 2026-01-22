@@ -109,6 +109,7 @@ public class SensorServiceImpl implements SensorService {
                         ));
     }
 
+    // check if sensor belongs to user
     public void checkSensorOwnership(String sensorID, String userID) {
         Sensor sensor = findSensorById(sensorID);
 
