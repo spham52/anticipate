@@ -61,6 +61,7 @@ int main() {
     // initialize notification client
     notify_client_t *notify_client = notify_client_init();
     if (notify_client == NULL) {
+        printf("[main] notify_client_init failed\n");
         return -1;
     }
 
@@ -70,6 +71,8 @@ int main() {
         printf("[main] notification post failed with error code: %d\n", error);
         return -1;
     }
+
+    printf("[main] notification posted successfully\n");
 
     return 0;
 }
