@@ -5,7 +5,7 @@ import "./DashboardStyle.css";
 import {
     registerUserWithSensor,
     findDeviceFromUser,
-    findNotificationHistoryFromSensor
+    findNotificationHistoryFromSensorPageable
 } from "../api/services/SensorService"
 import { format } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -20,12 +20,17 @@ export default function Dashboard() {
     const [sensorID, setSensorID] = useState("");
     const [addDeviceError, setAddDeviceError] = useState("");
     const [deviceHistory, setDeviceHistory] = useState([]);
+    const [deviceHistoryPage, setDeviceHistoryPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
+    // select specific device from dropdown menu
     const handleDeviceSelect = (device) => {
         setSelectedDevice(device);
+        setDeviceHistoryPage(0);
         setIsDropdownOpen(false);
     };
 
+    // associate sensor with user
     const handleAddDevice = async () => {
         if (sensorID.length === 0) {
             setAddDeviceError("You must specify a sensor ID.");
@@ -42,16 +47,17 @@ export default function Dashboard() {
         }
     }
 
+    // fetch all sensors from the user
     const fetchDevices = async () => {
-        const response = await findDeviceFromUser(selectedDevice.id);
+        const response = await findDeviceFromUser();
         setDevices(response);
     }
 
-    const fetchDeviceHistory = async () => {
-        const response = await findNotificationHistoryFromSensor(selectedDevice);
-        setDeviceHistory(response);
-        console.log(response);
-    }
+    const fetchDeviceHistory = async (page, size) => {
+        const response = await findNotificationHistoryFromSensorPageable(selectedDevice, page, size);
+        setDeviceHistory(response.content);
+        setTotalPages(response.totalPages);
+    };
 
     useEffect(() => {
         if (user) {
@@ -69,12 +75,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (selectedDevice && selectedDevice !== "No devices found") {
-            fetchDeviceHistory();
-            user.getIdToken().then(idToken => {console.log(idToken)});
+            fetchDeviceHistory(deviceHistoryPage, 12);
         } else {
             setSelectedDevice("No devices found");
         }
-    }, [selectedDevice])
+    }, [selectedDevice, deviceHistoryPage]);
 
     return (
         <>
@@ -132,10 +137,17 @@ export default function Dashboard() {
                             <ChevronLeft className="page-button-prev"
                                          size={40}
                                          strokeWidth={1.5}
-                                         cursor="pointer" />
+                                         cursor="pointer"
+                                         onClick={() =>
+                                             setDeviceHistoryPage(p =>
+                                                 Math.max(p - 1, 0))}
+                            />
                             <ChevronRight className="page-button-next"
                                           size={40} strokeWidth={1.5}
-                                          cursor="pointer" />
+                                          cursor="pointer"
+                                          onClick={() => setDeviceHistoryPage(
+                                              p => Math.min(p + 1, totalPages - 1))}
+                            />
                         </div>
                     </div>
                     <div id="dashboard-right-sidebar"></div>
