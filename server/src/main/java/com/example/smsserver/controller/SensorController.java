@@ -46,8 +46,7 @@ public class SensorController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Sensor sensor = sensorService.findSensorById(sensorID);
-        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensor, userID);
+        List<SensorHistoryDTO> sensorNotifications = sensorService.findAllNotificationsDTOBySensor(sensorID, userID);
         return new ResponseEntity<>(sensorNotifications, HttpStatus.OK);
     }
 
@@ -55,7 +54,7 @@ public class SensorController {
     @GetMapping
     public ResponseEntity<List<SensorResponseDTO>> getAllSensorsByUser(@AuthenticationPrincipal String userID) {
         User user = userService.findUserById(userID);
-        List<SensorResponseDTO> sensors = sensorService.findSensorsDTOByUser(user);
+        List<SensorResponseDTO> sensors = sensorService.findSensorsDTOByUser(userID);
         return new ResponseEntity<>(sensors, HttpStatus.OK);
     }
 }

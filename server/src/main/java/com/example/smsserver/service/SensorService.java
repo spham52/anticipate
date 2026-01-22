@@ -14,14 +14,16 @@ public interface SensorService {
 
     void associateUserWithSensor(SensorRegistrationRequestDTO request, String userID);
 
-    List<SensorNotification> findAllNotificationsBySensor(Sensor sensor, String userID);
+    List<SensorNotification> findAllNotificationsBySensor(String sensorID, String userID);
 
     void saveNotification(SensorNotificationDTO notification);
 
     Sensor findSensorById(String sensorId);
 
-    List<Sensor> findSensorsByUser(User user);
+    List<Sensor> findSensorsByUser(String userID);
 
-    List<SensorResponseDTO> findSensorsDTOByUser(User user);
-    List<SensorHistoryDTO> findAllNotificationsDTOBySensor(Sensor sensor, String userID);
+    List<SensorResponseDTO> findSensorsDTOByUser(String userID);
+    List<SensorHistoryDTO> findAllNotificationsDTOBySensor(String sensorID, String userID);
+    List<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size, String sort,
+                                                                       String sensorID, String userID);
 }
