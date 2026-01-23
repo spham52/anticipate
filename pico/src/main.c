@@ -8,23 +8,24 @@
 
 int main() {
 
-    pico_prov_err_t err;
+    err_t err;
+    pico_prov_err_t provision_err;
     pico_prov_credentials_t wifi_credentials = {0};
     
     // initialize all necessary systems + wifi credentials
-    err = pico_prov_init(&wifi_credentials);
-    if (err != PICO_PROV_OK) {
-        printf("[main] pico_prov_init returned error code: %d\n", err);
-        return err;
+    provision_err = pico_prov_init(&wifi_credentials);
+    if (provision_err != PICO_PROV_OK) {
+        printf("[main] pico_prov_init returned error code: %d\n", provision_err);
+        return provision_err;
     }
 
     // set case for beginning provisioning
     if (wifi_credentials.ssid[0] == '\0'/* || gpio_rst_btn_pressed()*/) {
         printf("[main] no credentials extracted, begining provisioning\n");
         
-        err = pico_prov_begin(&wifi_credentials);
-        if (err != PICO_PROV_OK) {
-            return err;
+        provision_err = pico_prov_begin(&wifi_credentials);
+        if (provision_err != PICO_PROV_OK) {
+            return provision_err;
         }
 
         // set case for polling wifi chip (further polls captive portal)
@@ -34,10 +35,10 @@ int main() {
         }
 
         // end pico provisioning (stores passed credentials to flash storage)
-        err = pico_prov_end(&wifi_credentials);
-        if (err != PICO_PROV_OK) {
-            printf("[main] pico_prov_end returned error code: %d\n", err);
-            return err;
+        provision_err = pico_prov_end(&wifi_credentials);
+        if (provision_err != PICO_PROV_OK) {
+            printf("[main] pico_prov_end returned error code: %d\n", provision_err);
+            return provision_err;
         }
 
         // restart pico to connect with newly obtained credentials
@@ -66,9 +67,9 @@ int main() {
     }
 
     // post notification to server (ASSUME SENSOR LOGIC HERE)
-    err_t error = notify_client_post_notification(notify_client);
-    if (error != ERR_OK) {
-        printf("[main] notification post failed with error code: %d\n", error);
+    err = notify_client_post_notification(notify_client);
+    if (err != ERR_OK) {
+        printf("[main] notification post failed with error code: %d\n", err);
         return -1;
     }
 

@@ -13,8 +13,8 @@ typedef struct {
     uint8_t buffer[BUF_SIZE];
     int buffer_len;
     int sent_len;
+    int recv_len;
     bool complete;
-    int run_count;
     bool connected;
 
 } notify_client_t;
@@ -29,6 +29,8 @@ notify_client_t* notify_client_init();
 //
 // Invokes the notify client start function to begin, which connects to
 // the server. Upon connection, the tcp_connected callback posts to the server.
+// The polling of the wifi stack continues until server ACK response 
+// acknowledges all bytes sent.
 err_t notify_client_post_notification(notify_client_t *notify_client);
 
 // Starting of the exchange with the anticipate server.
@@ -52,7 +54,9 @@ static err_t notify_client_close(void *arg);
 // Callback function for sent data.
 //
 // This function is used to verify that data has been sent successfully from the 
-// TCP stack to the server.
+// TCP stack to the server. The "len" parameter indicates how many bytes the
+// servers TCP layer has acknowledged as received. This is compared with how many
+// were sent to decide if notify_client can be considered complete.
 static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
 
 

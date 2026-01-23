@@ -22,7 +22,7 @@ static const char *POST_REQUEST =
 
 // other definitions
 #define TCP_PORT 8080
-ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 119);
+ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 122);
 
 notify_client_t* notify_client_init() {
 
@@ -48,9 +48,10 @@ err_t notify_client_post_notification(notify_client_t *notify_client) {
 
     while(notify_client->complete == false) {
         cyw43_arch_poll();
-        sleep_ms(1);
+        //sleep_ms(1);
     }
 
+    sleep_ms(1000); // ensure ACK is received from server before closing
     notify_client_close(notify_client);
 
     return ERR_OK;
@@ -69,12 +70,11 @@ static err_t notify_client_start(notify_client_t *notify_client) {
 
     tcp_arg(notify_client->tcp_pcb, notify_client);
     tcp_sent(notify_client->tcp_pcb, notify_client_sent);
-    /*
-    tcp_recv(notify_client->tcp_pcb, notify_client_recv);
-    tcp_err(notify_client->tcp_pcb, notify_client_err);
-    */
 
+    // set sent_len for tracking ACK server response
     notify_client->buffer_len = 0;
+    notify_client->sent_len = strlen(POST_REQUEST);
+    notify_client->recv_len = 0;
 
     cyw43_arch_lwip_begin();
     err_t err = tcp_connect(notify_client->tcp_pcb, &notify_client->remote_addr, TCP_PORT, notify_client_connected);
@@ -140,26 +140,13 @@ static err_t notify_client_close(void *arg) {
 static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
     
     notify_client_t *state = (notify_client_t*)arg;
-    printf("[notify_client] notify_client_sent %u\n", len);
-    state->sent_len += len;
+    printf("[notify_client] notify_client sent %u bytes\n", len);
+    state->recv_len += len;
 
-    if (state->sent_len >= BUF_SIZE) {
-
-        state->run_count++;
-        if (state->run_count >= TEST_ITERATIONS) {
-            printf("[notify_client] Notification exchange complete\n");
-            return ERR_OK;
-        }
-
-        // We should receive a new buffer from the server
-        state->buffer_len = 0;
-        state->sent_len = 0;
-        printf("[notify_client] Waiting for buffer from server\n");
+    if (len >= state->sent_len) {
+        state->complete = true;
+        printf("[notify_client] server acknowledges all bytes sent\n");
     }
 
     return ERR_OK;
 }
-
-
-//static err_t notify_client_
-//static err_t notify_client_
