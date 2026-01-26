@@ -6,6 +6,9 @@
 #include "wifi_provisioner.h"
 #include "notify_client.h"
 
+#define PIR_PIN 28 // GPIO pin connected to PIR
+#define LED_PIN 25 // Pico W onboard LED
+
 int main() {
 
     err_t err;
@@ -43,22 +46,40 @@ int main() {
 
         // restart pico to connect with newly obtained credentials
     }
-    else {
-        printf("[main] attempting wifi connection with credentials\n");
-        printf("    ssid: \"%s\"\n", wifi_credentials.ssid);
-        fflush(stdout);
-        printf("    password: \"%s\"\n", wifi_credentials.password);
+    
+    // connect to wifi with obtained credentials
+    printf("[main] attempting wifi connection with credentials\n");
+    printf("    ssid: \"%s\"\n", wifi_credentials.ssid);
+    fflush(stdout);
+    printf("    password: \"%s\"\n", wifi_credentials.password);
 
-        cyw43_arch_enable_sta_mode();
-        
-        if (cyw43_arch_wifi_connect_timeout_ms(wifi_credentials.ssid, wifi_credentials.password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-            printf("[main] failed to connect.\n");
-            exit(1);
-        }
-
-        printf("[main] connected to WiFi successfully\n");
+    cyw43_arch_enable_sta_mode();
+    
+    if (cyw43_arch_wifi_connect_timeout_ms(wifi_credentials.ssid, wifi_credentials.password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        printf("[main] failed to connect.\n");
+        exit(1);
     }
 
+    printf("[main] connected to WiFi successfully\n");
+
+    // Initialize GPIO
+    gpio_init(PIR_PIN);
+    gpio_set_dir(PIR_PIN, GPIO_IN);
+    
+    gpio_init(LED_PIN);
+    gpio_set_dir(LED_PIN, GPIO_OUT);
+
+    while (true) {
+        if (gpio_get(PIR_PIN)) {
+            printf("Motion Detected!\n");
+            gpio_put(LED_PIN, 1); // LED on
+            sleep_ms(1000);       // Debounce/Hold time
+        } else {
+            gpio_put(LED_PIN, 0); // LED off
+        }
+    }
+
+    /*
     // initialize notification client
     notify_client_t *notify_client = notify_client_init();
     if (notify_client == NULL) {
@@ -74,6 +95,8 @@ int main() {
     }
 
     printf("[main] notification posted successfully\n");
+*/
+
 
     return 0;
 }
