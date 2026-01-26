@@ -1,9 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
-import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
-import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.Sensor.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.*;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.exception.UnauthorisedAccessException;
@@ -19,7 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -57,7 +59,7 @@ public class SensorServiceImpl implements SensorService {
     // save notification received from a sensor into DB
     @Override
     public void saveNotification(SensorNotificationDTO notification) {
-        LocalDateTime time = LocalDateTime.now();
+        Instant time = Instant.now();
         Sensor sensor = findSensorById(notification.getSensorID());
         SensorNotification sensorNotification = SensorNotification.builder()
                 .sensor(sensor)
@@ -109,11 +111,40 @@ public class SensorServiceImpl implements SensorService {
                         ));
     }
 
+    // check if sensor belongs to user
     public void checkSensorOwnership(String sensorID, String userID) {
         Sensor sensor = findSensorById(sensorID);
 
         if (!sensor.getUser().getUserID().equals(userID)) {
             throw new UnauthorisedAccessException("You do not own this sensor");
         }
+    }
+
+    // returns all notifications associated with sensor, filtered by date and grouped into hours
+    public List<SensorHistoryHourAggregateDTO> findAllNotificationsDTOHourAggregateByDate(
+            LocalDate date, String timezone, String sensorID, String userID) {
+        checkSensorOwnership(sensorID, userID);
+        ZoneId zone = ZoneId.of(timezone);
+
+        // convert UTC from db into user's local date
+        Instant from = date.atStartOfDay(zone).toInstant();
+        Instant to = date.plusDays(1).atStartOfDay(zone).toInstant();
+
+        HashMap<Integer, Integer> count = new HashMap<>();
+        List<SensorNotification> notifications =
+                sensorNotificationRepository.findSensorNotificationBySensorIdAndTimestampBetweenOrderByTimestampDesc(
+                sensorID, from, to);
+
+        // group into hour
+        for (SensorNotification notification : notifications) {
+            int hour = notification.getTimestamp().atZone(zone).getHour();
+            count.put(hour, count.getOrDefault(hour, 0) + 1);
+        }
+
+        // return hashmap as DTO
+        return count.entrySet().stream().map(m ->
+                new SensorHistoryHourAggregateDTO(m.getKey(), m.getValue()))
+                .sorted(Comparator.comparingInt(SensorHistoryHourAggregateDTO::getHour))
+                .toList();
     }
 }

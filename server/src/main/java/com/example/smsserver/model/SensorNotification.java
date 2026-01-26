@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 // entity class which stores sensor notifications in a database
@@ -28,7 +29,5 @@ public class SensorNotification {
     private Sensor sensor;
 
     @Column(nullable = false, name = "timestamp")
-    private LocalDateTime timestamp;
-
-
+    private Instant timestamp;
 }

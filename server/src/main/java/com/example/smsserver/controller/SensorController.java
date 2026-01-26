@@ -1,9 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
-import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
-import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.Sensor.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.*;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.User;
 import com.example.smsserver.service.SensorService;
@@ -19,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController()
@@ -56,5 +55,18 @@ public class SensorController {
     public ResponseEntity<List<SensorResponseDTO>> getAllSensorsByUser(@AuthenticationPrincipal String userID) {
         List<SensorResponseDTO> sensors = sensorService.findSensorsDTOByUser(userID);
         return new ResponseEntity<>(sensors, HttpStatus.OK);
+    }
+
+    @GetMapping("/{sensorID}/history/date")
+    public ResponseEntity<List<SensorHistoryHourAggregateDTO>> getNotificationHistoryDailyBySensorID(
+            @PathVariable String sensorID,
+            @AuthenticationPrincipal String userID,
+            @RequestParam(required = false) LocalDate date,
+            @RequestParam(defaultValue = "Australia/Sydney") String timezone
+    ) {
+        if (date == null) Instant.now();
+        List<SensorHistoryHourAggregateDTO> history = sensorService.findAllNotificationsDTOHourAggregateByDate(date, timezone,
+                sensorID, userID);
+        return new ResponseEntity<>(history, HttpStatus.OK);
     }
 }
