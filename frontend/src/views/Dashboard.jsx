@@ -5,10 +5,12 @@ import "./DashboardStyle.css";
 import {
     registerUserWithSensor,
     findDeviceFromUser,
-    findNotificationHistoryFromSensorPageable
+    findNotificationHistoryFromSensorPageable,
+    findNotificationHistoryFromSensorByDate
 } from "../api/services/SensorService"
-import { format } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {format} from 'date-fns';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
+import Bargraph from "../components/Bargraph";
 
 export default function Dashboard() {
     const {user} = useAuth();
@@ -22,6 +24,8 @@ export default function Dashboard() {
     const [deviceHistory, setDeviceHistory] = useState([]);
     const [deviceHistoryPage, setDeviceHistoryPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [deviceHistoryDaily, setDeviceHistoryDaily] = useState([]);
+    const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
     // select specific device from dropdown menu
     const handleDeviceSelect = (device) => {
@@ -59,6 +63,13 @@ export default function Dashboard() {
         setTotalPages(response.totalPages);
     };
 
+    const fetchDeviceHistoryByDate = async () => {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const response = await findNotificationHistoryFromSensorByDate(selectedDevice, date, timezone);
+        console.log(response);
+        setDeviceHistoryDaily(response);
+    }
+
     useEffect(() => {
         if (user) {
             fetchDevices();
@@ -80,6 +91,12 @@ export default function Dashboard() {
             setSelectedDevice("No devices found");
         }
     }, [selectedDevice, deviceHistoryPage]);
+
+    useEffect(() => {
+        if (selectedDevice && selectedDevice !== "No devices found") {
+            fetchDeviceHistoryByDate();
+        }
+    }, [selectedDevice, date]);
 
     return (
         <>
@@ -128,7 +145,7 @@ export default function Dashboard() {
                             >
                                 <p id="dashboard-left-sidebar-time">
                                     {format(new Date(device.timestamp),
-                                    'hh:mm a dd/MM/yyyy')}
+                                        'hh:mm a dd/MM/yyyy')}
                                 </p>
                                 <p id="dashboard-left-sidebar-motion">Motion detected</p>
                             </div>
@@ -150,7 +167,35 @@ export default function Dashboard() {
                             />
                         </div>
                     </div>
-                    <div id="dashboard-right-sidebar"></div>
+                    <div id="dashboard-right-sidebar">
+                        <Bargraph data={deviceHistoryDaily}/>
+                        <div id="dashboard-right-sidebar-grouped-chevron">
+                            <ChevronLeft
+                                className="page-button-prev"
+                                id="date-button-prev"
+                                size={40}
+                                strokeWidth={1.5}
+                                cursor="pointer"
+                                onClick={() => {
+                                    const prev = new Date(date);
+                                    prev.setDate(prev.getDate() - 1);
+                                    setDate(prev.toISOString().split("T")[0]);
+                                }}
+                            />
+                            <p id="dashboard-right-sidebar-date">{date}</p>
+                            <ChevronRight
+                                className="page-button-prev"
+                                id="date-button-next"
+                                          size={40} strokeWidth={1.5}
+                                          cursor="pointer"
+                                onClick={() => {
+                                    const next = new Date(date);
+                                    next.setDate(next.getDate() + 1);
+                                    setDate(next.toISOString().split("T")[0]);
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 {showAddDeviceModal &&
