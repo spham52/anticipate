@@ -168,6 +168,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div id="dashboard-right-sidebar">
+                        <p id="dashboard-right-sidebar-header">Motion Graph</p>
                         <Bargraph data={deviceHistoryDaily}/>
                         <div id="dashboard-right-sidebar-grouped-chevron">
                             <ChevronLeft
