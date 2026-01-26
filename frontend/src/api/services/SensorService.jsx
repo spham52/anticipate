@@ -25,3 +25,13 @@ export const findNotificationHistoryFromSensorPageable = async (sensorID, page, 
     });
     return response.data;
 }
+
+export const findNotificationHistoryFromSensorByDate = async (sensorID, date, timezone) => {
+    const response = await api.get("/sensor/" + sensorID + "/history/date", {
+        params: {
+            date: date,
+            timezone: timezone
+        }
+    })
+    return response.data;
+}

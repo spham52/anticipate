@@ -1,9 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
-import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
-import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.Sensor.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.*;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.exception.UnauthorisedAccessException;
@@ -23,6 +20,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -122,7 +121,7 @@ public class SensorServiceImpl implements SensorService {
     }
 
     // returns all notifications associated with sensor, filtered by date and grouped into hours
-    public List<SensorHistoryDTO> findAllNotificationsDTOHourAggregateByDate(
+    public List<SensorHistoryHourAggregateDTO> findAllNotificationsDTOHourAggregateByDate(
             LocalDate date, String timezone, String sensorID, String userID) {
         checkSensorOwnership(sensorID, userID);
         ZoneId zone = ZoneId.of(timezone);
@@ -130,8 +129,22 @@ public class SensorServiceImpl implements SensorService {
         // convert UTC from db into user's local date
         Instant from = date.atStartOfDay(zone).toInstant();
         Instant to = date.plusDays(1).atStartOfDay(zone).toInstant();
-        return sensorNotificationRepository.findSensorNotificationBySensorIdAndTimestampBetweenOrderByTimestampDesc(
-                sensorID, from, to).stream().map(s -> new SensorHistoryDTO(s.getId(),
-                s.getSensor().getId(), s.getTimestamp())).toList();
+
+        HashMap<Integer, Integer> count = new HashMap<>();
+        List<SensorNotification> notifications =
+                sensorNotificationRepository.findSensorNotificationBySensorIdAndTimestampBetweenOrderByTimestampDesc(
+                sensorID, from, to);
+
+        // group into hour
+        for (SensorNotification notification : notifications) {
+            int hour = notification.getTimestamp().atZone(zone).getHour();
+            count.put(hour, count.getOrDefault(hour, 0) + 1);
+        }
+
+        // return hashmap as DTO
+        return count.entrySet().stream().map(m ->
+                new SensorHistoryHourAggregateDTO(m.getKey(), m.getValue()))
+                .sorted(Comparator.comparingInt(SensorHistoryHourAggregateDTO::getHour))
+                .toList();
     }
 }

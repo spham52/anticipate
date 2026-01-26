@@ -1,9 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.SensorHistoryDTO;
-import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
-import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
-import com.example.smsserver.dto.Sensor.SensorResponseDTO;
+import com.example.smsserver.dto.Sensor.*;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.SensorNotification;
 import com.example.smsserver.model.User;
@@ -29,6 +26,6 @@ public interface SensorService {
     List<SensorHistoryDTO> findAllNotificationsDTOBySensor(String sensorID, String userID);
     Page<SensorHistoryDTO> findAllNotificationsBySensorPageable(int page, int size,
                                                                       String sensorID, String userID);
-    List<SensorHistoryDTO> findAllNotificationsDTOHourAggregateByDate(
+    List<SensorHistoryHourAggregateDTO> findAllNotificationsDTOHourAggregateByDate(
             LocalDate date, String timezone, String sensorID, String userID);
 }
