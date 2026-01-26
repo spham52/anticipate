@@ -20,7 +20,6 @@ export default function Bargraph({ data }) {
                     allowDecimals={false}
                     label={{ value: 'Motion Count', angle: -90, position: 'insideLeft', fill: '#FFFFFF' }}
                 />
-                <Tooltip />
                 <Bar dataKey="count" fill="#FFFFFF" />
             </BarChart>
         </ResponsiveContainer>
