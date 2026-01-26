@@ -19,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -57,7 +60,7 @@ public class SensorServiceImpl implements SensorService {
     // save notification received from a sensor into DB
     @Override
     public void saveNotification(SensorNotificationDTO notification) {
-        LocalDateTime time = LocalDateTime.now();
+        Instant time = Instant.now();
         Sensor sensor = findSensorById(notification.getSensorID());
         SensorNotification sensorNotification = SensorNotification.builder()
                 .sensor(sensor)
@@ -116,5 +119,19 @@ public class SensorServiceImpl implements SensorService {
         if (!sensor.getUser().getUserID().equals(userID)) {
             throw new UnauthorisedAccessException("You do not own this sensor");
         }
+    }
+
+    // returns all notifications associated with sensor, filtered by date and grouped into hours
+    public List<SensorHistoryDTO> findAllNotificationsDTOHourAggregateByDate(
+            LocalDate date, String timezone, String sensorID, String userID) {
+        checkSensorOwnership(sensorID, userID);
+        ZoneId zone = ZoneId.of(timezone);
+
+        // convert UTC from db into user's local date
+        Instant from = date.atStartOfDay(zone).toInstant();
+        Instant to = date.plusDays(1).atStartOfDay(zone).toInstant();
+        return sensorNotificationRepository.findSensorNotificationBySensorIdAndTimestampBetweenOrderByTimestampDesc(
+                sensorID, from, to).stream().map(s -> new SensorHistoryDTO(s.getId(),
+                s.getSensor().getId(), s.getTimestamp())).toList();
     }
 }
