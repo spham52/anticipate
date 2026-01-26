@@ -4,6 +4,7 @@ import com.example.smsserver.model.Sensor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 // DTO used to return a SensorNotification entity to frontend
@@ -15,6 +16,6 @@ public class SensorHistoryDTO {
 
     private String sensorID;
 
-    private LocalDateTime timestamp;
+    private Instant timestamp;
 
 }
