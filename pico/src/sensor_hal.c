@@ -22,5 +22,5 @@ void sensor_hal_poll() {
         printf("No Motion\n");
     }
 
-    sleep_ms(1500); // Poll every 500ms
+    sleep_ms(1500); 
 }

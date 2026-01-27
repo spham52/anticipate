@@ -5,7 +5,8 @@
 
 // Inits the sensor hardware abstraction layer
 //
-// Configures GPIO pins for PIR sensor input and onboard LED output
+// Configures GPIO pins for PIR sensor input and onboard LED output.
+// Further more registers the provided callback to be called on motion detection.
 void sensor_hal_init();
 
 void sensor_hal_poll();
