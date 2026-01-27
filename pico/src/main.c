@@ -7,9 +7,6 @@
 #include "notify_client.h"
 #include "sensor_hal.h"
 
-#define PIR_PIN 28 // GPIO pin connected to PIR
-#define LED_PIN 25 // Pico W onboard LED
-
 int main() {
 
     err_t err;
@@ -51,11 +48,11 @@ int main() {
     // Initialize sensor HAL
     sensor_hal_init();
 
+    printf("[main] sensor listening\n");
+
     // run sensor HAL
     while (1) {
         sensor_hal_poll();
-        cyw43_arch_poll();
-        sleep_ms(1);
     }
 
     /*

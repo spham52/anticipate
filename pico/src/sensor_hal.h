@@ -1,8 +1,7 @@
 #ifndef SENSOR_HAL_H
 #define SENSOR_HAL_H
 
-#define PIR_PIN 28 // GPIO pin connected to PIR
-#define LED_PIN 25 // Pico W onboard LED
+#define PIR_PIN 21 // GPIO pin connected to PIR
 
 // Inits the sensor hardware abstraction layer
 //

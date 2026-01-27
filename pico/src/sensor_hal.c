@@ -11,19 +11,16 @@ void sensor_hal_init() {
     // initialize PIR sensor pin
     gpio_init(PIR_PIN);
     gpio_set_dir(PIR_PIN, GPIO_IN);
-
-    // initialize onboard LED pin
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
 }
 
 void sensor_hal_poll() {
 
     if (gpio_get(PIR_PIN)) {
         printf("Motion Detected!\n");
-        gpio_put(LED_PIN, 1); // LED on
-        sleep_ms(1000);       // Debounce/Hold time
+    }
+    else {
+        printf("No Motion\n");
     }
 
-    gpio_put(LED_PIN, 0); // LED off
+    sleep_ms(1500); // Poll every 500ms
 }
