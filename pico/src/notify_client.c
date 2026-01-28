@@ -22,7 +22,7 @@ static const char *POST_REQUEST =
 
 // other definitions
 #define TCP_PORT 8080
-ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 122);
+ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 130);
 
 notify_client_t* notify_client_init() {
 

@@ -46,9 +46,8 @@ int main() {
 
         // restart pico to connect with newly obtained credentials
     }
-    
-    /*
-    if (connect_wifi(wifi_credentials.ssid, wifi_credentials.password) != 0) {
+
+    if (pico_prov_connect_wifi(wifi_credentials.ssid, wifi_credentials.password) != PICO_PROV_OK) {
         printf("[main] failed to connect to WiFi\n");
         return -1;
     }
@@ -67,38 +66,23 @@ int main() {
 
     // run sensor HAL
     while (1) {
-        sensor_hal_poll();
+        if (sensor_hal_poll()) {
+
+            printf("[main] motion detected, posting notification\n");
+            
+            err = notify_client_post_notification(notify_client);
+            if (err != ERR_OK) {
+                printf("[main] notification post failed with error code: %d\n", err);
+                return -1;
+            }
+
+            printf("[main] notification posted successfully\n");
+            sleep_ms(10000); // debounce delay
+            continue;
+        }
+
+        sleep_ms(500);
     }
-
-
-    // post notification to server (ASSUME SENSOR LOGIC HERE)
-    err = notify_client_post_notification(notify_client);
-    if (err != ERR_OK) {
-        printf("[main] notification post failed with error code: %d\n", err);
-        return -1;
-    }
-
-    printf("[main] notification posted successfully\n");
-    */
-    return 0;
-}
-
-int connect_wifi(const char *ssid, const char *password) {
-    
-    // connect to wifi with obtained credentials
-    printf("[main] attempting wifi connection with credentials\n");
-    printf("    ssid: \"%s\"\n", ssid);
-    fflush(stdout);
-    printf("    password: \"%s\"\n", password);
-
-    cyw43_arch_enable_sta_mode();
-    
-    if (cyw43_arch_wifi_connect_timeout_ms(ssid, password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-        printf("[main] failed to connect.\n");
-        return -1;
-    }
-
-    printf("[main] connected to WiFi successfully\n");
 
     return 0;
 }
