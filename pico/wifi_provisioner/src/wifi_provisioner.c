@@ -103,6 +103,26 @@ pico_prov_err_t pico_prov_end(pico_prov_credentials_t *wifi_credentials) {
     return PICO_PROV_OK;
 }
 
+pico_prov_err_t pico_prov_connect_wifi(const char *ssid, const char *password) {
+    
+    // connect to wifi with obtained credentials
+    printf("[main] attempting wifi connection with credentials\n");
+    printf("    ssid: \"%s\"\n", ssid);
+    fflush(stdout);
+    printf("    password: \"%s\"\n", password);
+
+    cyw43_arch_enable_sta_mode();
+    
+    if (cyw43_arch_wifi_connect_timeout_ms(ssid, password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        printf("[main] failed to connect.\n");
+        return PICO_PROV_ERR;
+    }
+
+    printf("[main] connected to WiFi successfully\n");
+
+    return PICO_PROV_OK;
+}
+
 void sort_credentials_buffer(pico_prov_credentials_t *wifi_credentials) {
 
     // case for empty credentials

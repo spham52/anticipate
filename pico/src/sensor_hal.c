@@ -13,14 +13,7 @@ void sensor_hal_init() {
     gpio_set_dir(PIR_PIN, GPIO_IN);
 }
 
-void sensor_hal_poll() {
+bool sensor_hal_poll() {
 
-    if (gpio_get(PIR_PIN)) {
-        printf("Motion Detected!\n");
-    }
-    else {
-        printf("No Motion\n");
-    }
-
-    sleep_ms(1500); 
+    return gpio_get(PIR_PIN);
 }

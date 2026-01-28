@@ -52,6 +52,12 @@ pico_prov_err_t pico_prov_begin(pico_prov_credentials_t *credentials);
 // credentials to flash storage.
 pico_prov_err_t pico_prov_end(pico_prov_credentials_t *credentials);
 
+// Connects to wifi with passed credentials
+//
+// Uses the cyw34 station mode to connect to wifi with the passed ssid
+// and password. Returns error code on failure.
+pico_prov_err_t pico_prov_connect_wifi(const char *ssid, const char *password);
+
 // Sorts the credentails retrieved from the pico fs system
 //
 // Where the format of the extracted credentials is a single char array,
