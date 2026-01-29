@@ -51,6 +51,11 @@ pico_prov_err_t pico_prov_init(pico_prov_credentials_t *wifi_credentials) {
 
 pico_prov_err_t pico_prov_begin(pico_prov_credentials_t *credentials) {
     
+    // ensure reset of credentials buffer
+    credentials->ssid[0] = '\0';
+    credentials->password[0] = '\0';
+    credentials->ssid_state = 0;
+
     // set parameters for the access point
     const char *ssid = "anticipate_wifi";
     const char *password = "anticipate1234";
