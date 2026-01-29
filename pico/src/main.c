@@ -2,12 +2,12 @@
 #include "pico/stdlib.h"        // sleep_ms, stdio...
 #include "pico/cyw43_arch.h"    // wifi chip library
 #include "pico_fs.h"
+#include "hardware/watchdog.h"  // for device reset
 
 #include "wifi_provisioner.h"
 #include "notify_client.h"
 #include "sensor_hal.h"
-
-int connect_wifi(const char *ssid, const char *password);
+#include "button_hal.h"
 
 int main() {
 
@@ -23,7 +23,7 @@ int main() {
     }
 
     // set case for beginning provisioning
-    if (wifi_credentials.ssid[0] == '\0'/* || gpio_rst_btn_pressed()*/) {
+    if (wifi_credentials.ssid[0] == '\0' /*|| gpio_rst_btn_pressed()*/) {
         printf("[main] no credentials extracted, begining provisioning\n");
         
         provision_err = pico_prov_begin(&wifi_credentials);
@@ -44,7 +44,9 @@ int main() {
             return provision_err;
         }
 
-        // restart pico to connect with newly obtained credentials
+        // reboot pico to connect with newly obtained credentials
+        watchdog_enable(1, 1); 
+        while(1); 
     }
 
     if (pico_prov_connect_wifi(wifi_credentials.ssid, wifi_credentials.password) != PICO_PROV_OK) {
@@ -77,7 +79,7 @@ int main() {
             }
 
             printf("[main] notification posted successfully\n");
-            sleep_ms(10000); // debounce delay
+            sleep_ms(30000); // debounce delay
             continue;
         }
 
