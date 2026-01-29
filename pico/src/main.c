@@ -6,8 +6,7 @@
 #include "wifi_provisioner.h"
 #include "notify_client.h"
 #include "sensor_hal.h"
-
-int connect_wifi(const char *ssid, const char *password);
+#include "button_hal.h"
 
 int main() {
 
@@ -77,7 +76,7 @@ int main() {
             }
 
             printf("[main] notification posted successfully\n");
-            sleep_ms(10000); // debounce delay
+            sleep_ms(30000); // debounce delay
             continue;
         }
 
