@@ -5,10 +5,13 @@ import SignUp from "./views/SignUp.jsx";
 import Login from "./views/Login.jsx";
 import {AuthProvider} from "./firebase/AuthProvider";
 import Dashboard from "./views/Dashboard";
+import {ErrorBoundary} from 'react-error-boundary';
+import ErrorPage from "./components/ErrorPage.jsx"
 
 function App() {
   return (
       <Router>
+          <ErrorBoundary FallbackComponent={ErrorPage}>
           <AuthProvider>
           <Routes>
               <Route path="/" element={<Root/>}></Route>
@@ -17,6 +20,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard/>}></Route>
           </Routes>
           </AuthProvider>
+          </ErrorBoundary>
       </Router>
   );
 }
