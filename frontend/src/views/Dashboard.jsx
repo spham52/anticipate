@@ -11,9 +11,11 @@ import {
 import {format} from 'date-fns';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import Bargraph from "../components/Bargraph";
+import {useErrorBoundary} from 'react-error-boundary';
 
 export default function Dashboard() {
     const {user} = useAuth();
+    const {showBoundary} = useErrorBoundary();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const [devices, setDevices] = useState([]);
@@ -29,9 +31,13 @@ export default function Dashboard() {
 
     // select specific device from dropdown menu
     const handleDeviceSelect = (device) => {
-        setSelectedDevice(device);
-        setDeviceHistoryPage(0);
-        setIsDropdownOpen(false);
+        try {
+            setSelectedDevice(device);
+            setDeviceHistoryPage(0);
+            setIsDropdownOpen(false);
+        } catch (error) {
+            showBoundary(error);
+        }
     };
 
     // associate sensor with user
@@ -53,21 +59,32 @@ export default function Dashboard() {
 
     // fetch all sensors from the user
     const fetchDevices = async () => {
-        const response = await findDeviceFromUser();
-        setDevices(response);
+        try {
+            const response = await findDeviceFromUser();
+            setDevices(response);
+        } catch (error) {
+            showBoundary(error);
+        }
     }
 
     const fetchDeviceHistory = async (page, size) => {
-        const response = await findNotificationHistoryFromSensorPageable(selectedDevice, page, size);
-        setDeviceHistory(response.content);
-        setTotalPages(response.totalPages);
+        try {
+            const response = await findNotificationHistoryFromSensorPageable(selectedDevice, page, size);
+            setDeviceHistory(response.content);
+            setTotalPages(response.totalPages);
+        } catch (error) {
+            showBoundary(error);
+        }
     };
 
     const fetchDeviceHistoryByDate = async () => {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const response = await findNotificationHistoryFromSensorByDate(selectedDevice, date, timezone);
-        console.log(response);
-        setDeviceHistoryDaily(response);
+        try {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const response = await findNotificationHistoryFromSensorByDate(selectedDevice, date, timezone);
+            setDeviceHistoryDaily(response);
+        } catch (error) {
+            showBoundary(error);
+        }
     }
 
     useEffect(() => {
@@ -187,8 +204,8 @@ export default function Dashboard() {
                             <ChevronRight
                                 className="page-button-prev"
                                 id="date-button-next"
-                                          size={40} strokeWidth={1.5}
-                                          cursor="pointer"
+                                size={40} strokeWidth={1.5}
+                                cursor="pointer"
                                 onClick={() => {
                                     const next = new Date(date);
                                     next.setDate(next.getDate() + 1);
