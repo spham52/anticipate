@@ -16,7 +16,6 @@ typedef struct {
     int recv_len;
     bool complete;
     bool connected;
-
 } notify_client_t;
 
 // Initializing the tcp structs.
@@ -59,6 +58,10 @@ static err_t notify_client_close(void *arg);
 // were sent to decide if notify_client can be considered complete.
 static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
 
-
+// Callback function for tcp errors.
+//
+// This function is invoked when a tcp error occurs. It logs the error and
+// closes the notify client connection.
+static void notify_client_err(void *arg, err_t err);
 
 #endif // NOTIFY_CLIENT_H
