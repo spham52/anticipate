@@ -24,8 +24,8 @@ typedef enum {
 } pico_prov_err_t;
 
 typedef struct {
-    char ssid[33];          // up to 32 + terminating null
-    char password[64];      // up to 63 + terminating null
+    char ssid[33];                  // up to 32 + terminating null
+    char password[64];              // up to 63 + terminating null
     int ssid_state;
 } pico_prov_credentials_t;
 
