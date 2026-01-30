@@ -125,6 +125,7 @@ class UserServiceImplTest {
         return User.builder()
                 .email("user@example.com")
                 .username("john")
+                .userID("uid-123")
                 .build();
     }
 }

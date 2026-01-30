@@ -4,7 +4,6 @@ import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
 import com.example.smsserver.model.TokenRegistration;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.User;
-import com.example.smsserver.repository.SensorRepository;
 import com.example.smsserver.repository.TokenRegistrationRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -29,7 +28,7 @@ class NotificationServiceImplTest {
     TokenRegistrationRepository tokenRegistrationRepository;
 
     @Mock
-    SensorRepository sensorRepository;
+    SensorService sensorService;
 
     @Mock
     FirebaseMessaging firebaseMessaging;
@@ -60,7 +59,7 @@ class NotificationServiceImplTest {
                 .build();
 
         // when SensorRepository calls findById return sensor
-        when(sensorRepository.findById(sensorID)).thenReturn(Optional.of(sensor));
+        when(sensorService.findSensorById(sensorID)).thenReturn(sensor);
 
         // when tokenRegistrationRepository calls findById return registrationToken
         when(tokenRegistrationRepository.findByUserID(userID)).thenReturn(tokenRegistration);
@@ -72,7 +71,7 @@ class NotificationServiceImplTest {
 
         // verify a messsage was actually sent
         verify(firebaseMessaging).send(any(Message.class));
-        verify(sensorRepository).findById(sensorID);
+        verify(sensorService).findSensorById(sensorID);
         verify(tokenRegistrationRepository).findByUserID(userID);
     }
 }
