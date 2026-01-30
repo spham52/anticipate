@@ -48,9 +48,13 @@ err_t notify_client_post_notification(notify_client_t *notify_client) {
 
     while(notify_client->complete == false) {
         cyw43_arch_poll();
-        //sleep_ms(1);
     }
 
+    if (!notify_client->connected) {
+        printf("[notify_client] notify_client_post_notification failed to connect\n");
+        return ERR_CONN;
+    }
+    
     sleep_ms(1000); // ensure ACK is received from server before closing
     notify_client_close(notify_client);
 
@@ -70,6 +74,7 @@ static err_t notify_client_start(notify_client_t *notify_client) {
 
     tcp_arg(notify_client->tcp_pcb, notify_client);
     tcp_sent(notify_client->tcp_pcb, notify_client_sent);
+    tcp_err(notify_client->tcp_pcb, notify_client_err);
 
     // set sent_len for tracking ACK server response
     notify_client->buffer_len = 0;
@@ -80,7 +85,7 @@ static err_t notify_client_start(notify_client_t *notify_client) {
     err_t err = tcp_connect(notify_client->tcp_pcb, &notify_client->remote_addr, TCP_PORT, notify_client_connected);
     cyw43_arch_lwip_end();
 
-    return ERR_OK;
+    return err;
 }
 
 static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err) {
@@ -149,4 +154,19 @@ static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
     }
 
     return ERR_OK;
+}
+
+static void notify_client_err(void *arg, err_t err) {
+
+    notify_client_t *state = (notify_client_t*)arg;
+
+    if (err == ERR_ABRT) {
+        printf("[notify_client] connection to server failed: %d\n", err);
+    }
+    else {
+        printf("[notify_client] lwip/tcp error code: %d\n", err);
+    }
+    
+    state->complete = true;
+    notify_client_close(arg);
 }
