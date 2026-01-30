@@ -262,7 +262,7 @@ static void get_wifi_login(void *arg) {
 
     // extracting wifi password
     get_value(captive_server->buffer_recv, "password=", wifi_credentials->password);
-    if (wifi_credentials->ssid == NULL) {
+    if (wifi_credentials->password[0] == '\0') {
         printf("[pico_captive_portal] no password extracted\n");
         return;
     }

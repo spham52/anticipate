@@ -79,11 +79,12 @@ int main() {
             }
 
             printf("[main] notification posted successfully\n");
-            sleep_ms(30000); // debounce delay
+            sleep_ms(60000); // debounce delay
             continue;
         }
-
-        sleep_ms(500);
+        else {
+            sleep_ms(500);
+        }
     }
 
     return 0;
