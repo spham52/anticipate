@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TokenRegistrationController.class)
-class RegistrationControllerTest {
+class TokenRegistrationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
