@@ -3,7 +3,8 @@ import "./SignUp.css"
 import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import {validate as validateEmail} from 'email-validator'
-import api from '../api/axios.jsx'
+import { registerUser } from "../api/services/UserRegistrationService"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export default function SignUp() {
     const [errors, setErrors] = useState({});
@@ -40,7 +41,7 @@ export default function SignUp() {
 
         if (isValid) {
             try {
-                const response = await api.post('/user/register', data);
+                const response = registerUser(data);
                 if (response.status === 200 || response.status === 201) {
                     navigate('/login');
                 }
@@ -71,6 +72,10 @@ export default function SignUp() {
                             ))}
                         </div>
                     )}
+                    <ReCAPTCHA
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                    id="signup-recaptcha"
+                    />
                     <input type="submit" value="Sign Up" id="signup-form-submit"/>
                 </form>
             </div>
