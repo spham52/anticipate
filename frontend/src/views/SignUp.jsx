@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import {validate as validateEmail} from 'email-validator'
 import { registerUser } from "../api/services/UserRegistrationService"
-import api from '../api/axios.jsx'
 import ReCAPTCHA from "react-google-recaptcha"
 
 export default function SignUp() {
