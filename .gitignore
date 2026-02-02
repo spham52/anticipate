@@ -19,5 +19,6 @@ server/src/main/resources/credentials/
 # Quick build bash script for development
 /pico/dev_build.sh
 
-# To do list only for pico development
+# pico development paste files
 /pico/todo.txt
+/pico/wifi_config.txt
