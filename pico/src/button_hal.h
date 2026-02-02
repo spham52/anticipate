@@ -1,9 +1,9 @@
-#ifndef SENSOR_HAL_H
-#define SENSOR_HAL_H
+#ifndef BUTTON_HAL_H
+#define BUTTON_HAL_H
 
 #define BUTTON_PIN 15 // GPIO pin connected to button
 
-// Inits the sensor hardware abstraction layer
+// Inits the button hardware abstraction layer
 //
 // Configures GPIO pins for button input and onboard LED output.
 void button_hal_init();
@@ -11,7 +11,7 @@ void button_hal_init();
 // Polls the button for press detection
 //
 // Returns true if button is pressed, false otherwise.
-bool button_hal_poll();
+bool button_hal_pressed();
 
 
-#endif // SENSOR_HAL_H
+#endif // BUTTON_HAL_H

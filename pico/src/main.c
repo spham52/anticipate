@@ -21,10 +21,11 @@ int main() {
         printf("[main] pico_prov_init returned error code: %d\n", provision_err);
         return provision_err;
     }
-
+    
     // set case for beginning provisioning
-    if (wifi_credentials.ssid[0] == '\0' /*|| gpio_rst_btn_pressed()*/) {
-        printf("[main] no credentials extracted, begining provisioning\n");
+    button_hal_init();
+    if (wifi_credentials.ssid[0] == '\0' || button_hal_pressed()) {
+        printf("[main] empty credentials or prov button pressed, beginning provisioning\n");
         
         provision_err = pico_prov_begin(&wifi_credentials);
         if (provision_err != PICO_PROV_OK) {
