@@ -6,8 +6,8 @@
 
 #include "wifi_provisioner.h"
 #include "notify_client.h"
-#include "sensor_hal.h"
 #include "button_hal.h"
+#include "sensor_hal.h"
 
 int main() {
 
@@ -76,12 +76,11 @@ int main() {
             err = notify_client_post_notification(notify_client);
             if (err != ERR_OK) {
                 printf("[main] notification post failed with error code: %d\n", err);
-                return -1;
+                continue;
             }
-
+            
             printf("[main] notification posted successfully\n");
-            sleep_ms(60000); // debounce delay
-            continue;
+            sleep_ms(60000); // sensor post cooldown
         }
         else {
             sleep_ms(500);
