@@ -16,7 +16,7 @@ void button_hal_init() {
     gpio_pull_up(BUTTON_PIN);
 }
 
-bool button_hal_poll() {
+bool button_hal_pressed() {
 
     for (int i = 0; i < 10; i++) {
         if (gpio_get(BUTTON_PIN)) {    // returns 1 if not pressed, 0 if pressed
