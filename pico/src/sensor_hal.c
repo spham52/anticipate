@@ -22,7 +22,7 @@ bool sensor_hal_poll() {
         if (!gpio_get(PIR_PIN)) {    // check if motion remains detected throughout loop
             return false;
         }
-        sleep_ms(2);
+        sleep_ms(10);
     }
 
     return true;

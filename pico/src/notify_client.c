@@ -39,6 +39,19 @@ notify_client_t* notify_client_init() {
 
 err_t notify_client_post_notification(notify_client_t *notify_client) {
 
+    if (!notify_client) {
+        printf("[notify client] NULL client struct passed to post notification\n");
+        return ERR_MEM;
+    }
+
+    // connected flag must be handled by tcp callbacks
+    if (notify_client->connected) {
+        printf("[notify_client] client already connected, cannot post notification\n");
+        return ERR_ISCONN;
+    }
+
+    notify_client->complete = false;
+
     // sending of post request called by connected callback
     err_t err = notify_client_start(notify_client);
     if (err != ERR_OK) {
