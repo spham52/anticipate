@@ -15,7 +15,7 @@ set(PICO_EXAMPLES_PATH "$ENV{HOME}/pico/pico-examples"
 add_subdirectory(wifi_provisioner)
 
 # 2) Build your real application entrypoint
-add_executable(app
+add_executable(pico_anticipate
     src/main.c
     src/notify_client.c
     src/sensor_hal.c
@@ -23,14 +23,15 @@ add_executable(app
 )
 
 # main.c includes wifi_provisioner.h, so include comes from the library PUBLIC includes.
-target_link_libraries(app
+target_link_libraries(pico_anticipate
     pico_stdlib
     wifi_provisioner
-    pico_cyw43_arch_none
+    #pico_cyw43_arch_none # OLD
+    pico_cyw43_arch_lwip_threadsafe_background
 )
 
-pico_enable_stdio_usb(app 1)
-pico_enable_stdio_uart(app 0)
+pico_enable_stdio_usb(pico_anticipate 1)
+pico_enable_stdio_uart(pico_anticipate 0)
 
-target_compile_features(app PRIVATE c_std_11)
-pico_add_extra_outputs(app)
+target_compile_features(pico_anticipate PRIVATE c_std_11)
+pico_add_extra_outputs(pico_anticipate)
