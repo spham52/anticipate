@@ -15,7 +15,11 @@ int main() {
     pico_prov_err_t provision_err;
     pico_prov_credentials_t wifi_credentials = {0};
     
-    // initialize all necessary systems + wifi credentials
+    // initialize all necessary subsystems + wifi credentials provisioner
+    if (stdio_init_all() < 0 || cyw43_arch_init() < 0) {
+        return -1;
+    }
+
     provision_err = pico_prov_init(&wifi_credentials);
     if (provision_err != PICO_PROV_OK) {
         printf("[main] pico_prov_init returned error code: %d\n", provision_err);
