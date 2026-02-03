@@ -75,7 +75,8 @@ int main() {
             
             err = notify_client_post_notification(notify_client);
             if (err != ERR_OK) {
-                printf("[main] notification post failed with error code: %d\n", err);
+                printf("[main] notification post failed with error code: %d\n\n", err);
+                sleep_ms(500);
                 continue;
             }
             
