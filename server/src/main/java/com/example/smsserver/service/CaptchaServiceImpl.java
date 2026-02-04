@@ -50,7 +50,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             throw new GoogleRecaptchaFailedException();
         }
 
-        if (response == null && !response.isSuccess()) {
+        if (response == null || !response.isSuccess()) {
             throw new GoogleRecaptchaFailedException();
         }
     }
