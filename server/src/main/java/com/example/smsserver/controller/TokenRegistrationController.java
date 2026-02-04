@@ -1,6 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.Token.TokenRegistrationRequestDTO;
+import com.example.smsserver.dto.token.TokenRegistrationRequestDTO;
 import com.example.smsserver.service.TokenRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

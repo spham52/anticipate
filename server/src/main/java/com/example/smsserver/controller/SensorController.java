@@ -1,16 +1,11 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.Sensor.*;
-import com.example.smsserver.model.Sensor;
-import com.example.smsserver.model.User;
+import com.example.smsserver.dto.sensor.*;
 import com.example.smsserver.service.SensorService;
 import com.example.smsserver.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

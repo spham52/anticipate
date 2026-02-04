@@ -1,6 +1,6 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.*;
+import com.example.smsserver.dto.sensor.*;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.exception.UnauthorisedAccessException;
@@ -13,12 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.HashMap;

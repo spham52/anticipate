@@ -1,12 +1,10 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.*;
+import com.example.smsserver.dto.sensor.*;
 import com.example.smsserver.model.Sensor;
 import com.example.smsserver.model.SensorNotification;
-import com.example.smsserver.model.User;
 import org.springframework.data.domain.Page;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 

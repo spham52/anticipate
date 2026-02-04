@@ -1,11 +1,9 @@
-package com.example.smsserver.dto.Sensor;
+package com.example.smsserver.dto.sensor;
 
-import com.example.smsserver.model.Sensor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 // DTO used to return a SensorNotification entity to frontend
 @Data

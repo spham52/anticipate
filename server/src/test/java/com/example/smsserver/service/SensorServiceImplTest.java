@@ -1,7 +1,7 @@
 package com.example.smsserver.service;
 
-import com.example.smsserver.dto.Sensor.SensorNotificationDTO;
-import com.example.smsserver.dto.Sensor.SensorRegistrationRequestDTO;
+import com.example.smsserver.dto.sensor.SensorNotificationDTO;
+import com.example.smsserver.dto.sensor.SensorRegistrationRequestDTO;
 import com.example.smsserver.exception.SensorAlreadyAssociatedWithUserException;
 import com.example.smsserver.exception.SensorDoesNotExistException;
 import com.example.smsserver.exception.UnauthorisedAccessException;

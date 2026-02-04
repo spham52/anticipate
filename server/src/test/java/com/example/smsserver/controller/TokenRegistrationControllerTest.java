@@ -1,6 +1,6 @@
 package com.example.smsserver.controller;
 
-import com.example.smsserver.dto.Token.TokenRegistrationRequestDTO;
+import com.example.smsserver.dto.token.TokenRegistrationRequestDTO;
 import com.example.smsserver.service.TokenRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.FirebaseAuth;
