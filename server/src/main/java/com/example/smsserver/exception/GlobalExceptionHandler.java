@@ -87,6 +87,15 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, message, request.getRequestURI());
     }
 
+    @ExceptionHandler(GoogleRecaptchaFailedException.class)
+    public ResponseEntity<ErrorResponse> handleGoogleRecaptchaFailed(
+            GoogleRecaptchaFailedException e, HttpServletRequest request
+    ) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST,
+                "Please complete the captcha and try again.",
+                request.getRequestURI());
+    }
+
     // helper method to build error responses
     private ResponseEntity<ErrorResponse> buildErrorResponse(
             HttpStatus status,

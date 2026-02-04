@@ -1,4 +1,4 @@
-package com.example.smsserver.dto.Sensor;
+package com.example.smsserver.dto.sensor;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

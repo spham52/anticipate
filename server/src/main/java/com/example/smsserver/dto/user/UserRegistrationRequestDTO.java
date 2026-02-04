@@ -1,4 +1,4 @@
-package com.example.smsserver.dto.User;
+package com.example.smsserver.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,4 +26,8 @@ public class UserRegistrationRequestDTO {
     @NotNull
     @Email
     String email;
+
+    @NotBlank
+    @NotNull
+    String captcha;
 }

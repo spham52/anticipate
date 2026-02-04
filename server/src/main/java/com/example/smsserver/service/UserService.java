@@ -1,7 +1,7 @@
 package com.example.smsserver.service;
 
 
-import com.example.smsserver.dto.User.UserRegistrationRequestDTO;
+import com.example.smsserver.dto.user.UserRegistrationRequestDTO;
 import com.example.smsserver.model.User;
 import com.google.firebase.auth.FirebaseAuthException;
 

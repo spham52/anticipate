@@ -1,4 +1,4 @@
-package com.example.smsserver.dto.Token;
+package com.example.smsserver.dto.token;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
