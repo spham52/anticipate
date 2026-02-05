@@ -181,6 +181,8 @@ static void notify_client_err(void *arg, err_t err) {
         printf("[notify_client] lwip/tcp error code: %d\n", err);
     }
     
+    // ensure tcp is set to null as its unusable at this point
+    state->tcp_pcb = NULL;
     state->complete = true;
-    notify_client_close(arg);
+    state->connected = false;
 }

@@ -15,9 +15,11 @@ void sensor_hal_init();
 // Polls the PIR sensor for motion detection
 //
 // Returns true if motion is detected, false otherwise.
-// This function handles it's own debouncing cooldown:
+// This function handles it's own debouncing cooldown, allowing for 
+// absolute minimal main loop code and minimal blocking of TCP polling.
 //
-//      To prevent sticking activation, will return false 6 times for 500ms each time
+// The logic if you need to know for some reason:
+//      To prevent sticking activation, will return false 10 times for 500ms each time
 //      to ensure sensor is ready to be active again (takes ~3s for PIR sensor to reset).
 //      This is preffered to sleep_ms(3000) as TCP sockets need frequent polling.
 bool sensor_hal_is_active();

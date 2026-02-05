@@ -37,6 +37,6 @@ bool sensor_hal_is_active() {
         sleep_ms(10);
     }
 
-    iterations_before_active = 6;
+    iterations_before_active = 10;
     return true;
 }
