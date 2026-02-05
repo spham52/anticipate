@@ -22,7 +22,7 @@ static const char *POST_REQUEST =
 
 // other definitions
 #define TCP_PORT 8080
-ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 130);
+ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 118);
 
 notify_client_t* notify_client_init() {
 
@@ -150,6 +150,7 @@ static err_t notify_client_close(void *arg) {
     }
 
     state->tcp_pcb = NULL;
+    state->connected = false;
     printf("[notify_client] Notification client closed successfully\n");
 
     return err;
@@ -180,6 +181,8 @@ static void notify_client_err(void *arg, err_t err) {
         printf("[notify_client] lwip/tcp error code: %d\n", err);
     }
     
+    // ensure tcp is set to null as its unusable at this point
+    state->tcp_pcb = NULL;
     state->complete = true;
-    notify_client_close(arg);
+    state->connected = false;
 }
