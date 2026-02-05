@@ -150,6 +150,7 @@ static err_t notify_client_close(void *arg) {
     }
 
     state->tcp_pcb = NULL;
+    state->connected = false;
     printf("[notify_client] Notification client closed successfully\n");
 
     return err;

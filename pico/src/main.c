@@ -68,27 +68,23 @@ int main() {
 
     // Initialize sensor HAL
     sensor_hal_init();
-
     printf("[main] sensor listening\n");
 
     // run sensor HAL
     while (1) {
-        if (sensor_hal_poll()) {
+        if (sensor_hal_is_active()) {
 
             printf("[main] motion detected, posting notification\n");
             
             err = notify_client_post_notification(notify_client);
             if (err != ERR_OK) {
                 printf("[main] notification post failed with error code: %d\n\n", err);
-                sleep_ms(500);
-                continue;
+            }
+            else {
+                printf("[main] notification post successful\n\n");
             }
             
-            printf("[main] notification posted successfully\n");
-            sleep_ms(60000); // sensor post cooldown
-        }
-        else {
-            sleep_ms(500);
+            printf("[main] sensor listening\n");
         }
     }
 
