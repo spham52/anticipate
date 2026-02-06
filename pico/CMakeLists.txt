@@ -20,6 +20,7 @@ add_executable(pico_anticipate
     src/notify_client.c
     src/sensor_hal.c
     src/button_hal.c
+    src/wl_log.c
 )
 
 # main.c includes wifi_provisioner.h, so include comes from the library PUBLIC includes.

@@ -56,7 +56,7 @@ pico_prov_err_t pico_prov_end(pico_prov_credentials_t *credentials);
 //
 // Uses the cyw34 station mode to connect to wifi with the passed ssid
 // and password. Returns error code on failure.
-pico_prov_err_t pico_prov_connect_wifi(const char *ssid, const char *password);
+//pico_prov_err_t pico_prov_connect_wifi(const char *ssid, const char *password);
 
 // Sorts the credentails retrieved from the pico fs system
 //
