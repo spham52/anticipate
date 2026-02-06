@@ -7,6 +7,7 @@
 
 // project headers
 #include "notify_client.h"
+#include "wl_log.h"
 
 // http header defintions
 static const char *POST_REQUEST =
@@ -185,4 +186,23 @@ static void notify_client_err(void *arg, err_t err) {
     state->tcp_pcb = NULL;
     state->complete = true;
     state->connected = false;
+}
+
+err_t notify_client_connect_wifi(const char *ssid, const char *password) {
+    
+    // connect to wifi with obtained credentials
+    WL_LOGI("main", "connecting to WiFi with credentials:");
+    printf("    ssid: \"%s\"\n", ssid);
+    fflush(stdout);
+    printf("    password: \"%s\"\n", password);
+
+    cyw43_arch_enable_sta_mode();
+    
+    if (cyw43_arch_wifi_connect_timeout_ms(ssid, password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        return ERR_CONN;
+    }
+
+    printf("[main] connected to WiFi successfully\n");
+
+    return ERR_OK;
 }

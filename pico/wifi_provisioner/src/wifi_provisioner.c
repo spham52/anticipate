@@ -16,9 +16,6 @@ char credentials_buffer[96] = {0};
 portal_server_t *portal_server;
 
 pico_prov_err_t pico_prov_init(pico_prov_credentials_t *wifi_credentials) {
-    
-    // prov init assumes cyw43 only just initialized
-    sleep_ms(2000);
 
     // indication of initialization via both serial output and led
     printf("\n[pico_prov] intializing\n");
@@ -100,25 +97,6 @@ pico_prov_err_t pico_prov_end(pico_prov_credentials_t *wifi_credentials) {
         printf("[pico_prov] failed to write to file\n");
         return PICO_PROV_ERR_FS_WRITE;
     }
-
-    return PICO_PROV_OK;
-}
-
-pico_prov_err_t pico_prov_connect_wifi(const char *ssid, const char *password) {
-    
-    // connect to wifi with obtained credentials
-    printf("[main] attempting wifi connection with credentials\n");
-    printf("    ssid: \"%s\"\n", ssid);
-    fflush(stdout);
-    printf("    password: \"%s\"\n", password);
-
-    cyw43_arch_enable_sta_mode();
-    
-    if (cyw43_arch_wifi_connect_timeout_ms(ssid, password, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-        return PICO_PROV_ERR;
-    }
-
-    printf("[main] connected to WiFi successfully\n");
 
     return PICO_PROV_OK;
 }

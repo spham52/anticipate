@@ -64,4 +64,6 @@ static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
 // closes the notify client connection.
 static void notify_client_err(void *arg, err_t err);
 
+err_t notify_client_connect_wifi(const char *ssid, const char *password);
+
 #endif // NOTIFY_CLIENT_H
