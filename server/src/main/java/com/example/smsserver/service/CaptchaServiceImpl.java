@@ -1,20 +1,15 @@
 package com.example.smsserver.service;
 
 // class used to verify Google's ReCaptcha
-
-import com.example.smsserver.dto.captcha.RecaptchaRequest;
 import com.example.smsserver.dto.captcha.RecaptchaResponse;
 import com.example.smsserver.exception.GoogleRecaptchaFailedException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
