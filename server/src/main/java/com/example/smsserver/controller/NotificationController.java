@@ -1,5 +1,6 @@
 package com.example.smsserver.controller;
 
+import com.example.smsserver.aspect.RateLimit;
 import com.example.smsserver.dto.sensor.SensorNotificationDTO;
 import com.example.smsserver.service.NotificationService;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -16,6 +17,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @PostMapping("/notify")
+    @RateLimit
     public ResponseEntity<String> sendNotification(@RequestBody SensorNotificationDTO sensorNotificationDTO) {
         try {
             notificationService.sendNotification(sensorNotificationDTO);
