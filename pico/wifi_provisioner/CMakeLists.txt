@@ -8,6 +8,7 @@ add_library(wifi_provisioner STATIC
     src/pico_fs.c
     src/pico_dhcp.c
     src/pico_captive_portal.c
+    src/wl_log.c
 
     # Add the dhcp server from pico examples as library source
     ${PICO_EXAMPLES_PATH}/pico_w/wifi/access_point/dhcpserver/dhcpserver.c

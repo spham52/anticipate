@@ -8,6 +8,7 @@
 #include "pico_fs.h"            // abstraction of flash file i/o functions
 #include "pico_dhcp.h"
 #include "pico_captive_portal.h"
+#include "wl_log.h"
 
 // buffer length = 
 // max length of SSID (32 chars) + space + max length of password(63) = 96
@@ -18,26 +19,26 @@ portal_server_t *portal_server;
 pico_prov_err_t pico_prov_init(pico_prov_credentials_t *wifi_credentials) {
 
     // indication of initialization via both serial output and led
-    printf("\n[pico_prov] intializing\n");
+    WL_LOGI("pico_prov", "initializing wifi provisioner");
     blink(250);
     blink(250);
     blink(250);
 
     // mount the file system for credentails extraction
     if (pico_fs_init() < 0){
+        WL_LOGE("pico_prov", "failed to mount filesystem");
         return PICO_PROV_ERR_FS_MOUNT;
     }
 
     // actual reading of credentials file
     if (pico_fs_read_file(CREDENTIALS_PATH, credentials_buffer, 96) < 0) {
-        printf("[pico_prov] reading from file failed\n");
+        WL_LOGE("pico_prov", "failed to read from file");
         return PICO_PROV_ERR_FS_READ;
     }
 
     // processing retrieved credentials
     sort_credentials_buffer(wifi_credentials);
-    printf("[pico_prov] credentials read from flash storage: \"%s\"\n", credentials_buffer);
-    fflush(stdout);
+    WL_LOGI("pico_prov", "credentials read from flash storage: \"%s\"", credentials_buffer);
 
     return PICO_PROV_OK;
 }
@@ -55,7 +56,7 @@ pico_prov_err_t pico_prov_begin(pico_prov_credentials_t *credentials) {
     
     // start access point
     cyw43_arch_enable_ap_mode(ssid, password, CYW43_AUTH_WPA2_MIXED_PSK);
-    printf("[pico_prov] Wifi Access Point started with SSID: %s\n", ssid);
+    WL_LOGI("pico_prov", "Wifi Access Point started with SSID: %s", ssid);
 
     // begin listening dhcp server
     pico_dhcp_start();
@@ -70,8 +71,6 @@ pico_prov_err_t pico_prov_begin(pico_prov_credentials_t *credentials) {
     if (pico_captive_portal_start(portal_server, credentials) < 0) {
         return PICO_PROV_ERR_PORTAL_START;
     }
-
-    printf("[pico_prov] captive web portal listening on: http://192.168.4.1:80/\n");
 
     return PICO_PROV_OK;
 }
@@ -94,7 +93,7 @@ pico_prov_err_t pico_prov_end(pico_prov_credentials_t *wifi_credentials) {
     uint8_t err = pico_fs_write_file(CREDENTIALS_PATH, final_credentials_buffer, strlen(final_credentials_buffer));
 
     if (err == -1) {
-        printf("[pico_prov] failed to write to file\n");
+        WL_LOGE("pico_prov", "failed to write to file");
         return PICO_PROV_ERR_FS_WRITE;
     }
 
