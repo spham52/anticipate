@@ -96,6 +96,14 @@ public class GlobalExceptionHandler {
                 request.getRequestURI());
     }
 
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<ErrorResponse> handleRateLimitExceeded(
+            RateLimitExceededException e, HttpServletRequest request
+    ) {
+        log.warn("IP: {} is sending too many requests.", e.getIp());
+        return buildErrorResponse(HttpStatus.TOO_MANY_REQUESTS, e.getMessage(), request.getRequestURI());
+    }
+
     // helper method to build error responses
     private ResponseEntity<ErrorResponse> buildErrorResponse(
             HttpStatus status,
