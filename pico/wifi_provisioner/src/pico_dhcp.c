@@ -5,6 +5,7 @@
 #include "pico/cyw43_arch.h"    // wifi chip library
 
 #include "pico_dhcp.h"
+#include "wl_log.h"
 
 dhcp_server_t dhcp_server;
 
@@ -33,7 +34,7 @@ void pico_dhcp_start() {
     // end arch
     cyw43_arch_lwip_end();
 
-    printf("[pico_dhcp] initialized\n");
+    WL_LOGI("pico_dhcp", "DHCP server started with gateway IP: %d.%d.%d.%d", ip4_addr1(&gateway_addr), ip4_addr2(&gateway_addr), ip4_addr3(&gateway_addr), ip4_addr4(&gateway_addr));
 }
 
 int pico_dhcp_stop() {
