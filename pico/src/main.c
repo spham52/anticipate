@@ -86,7 +86,7 @@ int main() {
             
             err = notify_client_post_notification(notify_client);
             if (err != ERR_OK) {
-                WL_LOGE("main", "notification post failed with error code: %d", err);
+                WL_LOGE("main", "notification post failed");
             }
             else {
                 WL_LOGI("main", "notification post successful");

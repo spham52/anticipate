@@ -72,8 +72,6 @@ pico_prov_err_t pico_prov_begin(pico_prov_credentials_t *credentials) {
         return PICO_PROV_ERR_PORTAL_START;
     }
 
-    printf("[pico_prov] captive web portal listening on: http://192.168.4.1:80/\n");
-
     return PICO_PROV_OK;
 }
 
@@ -95,7 +93,7 @@ pico_prov_err_t pico_prov_end(pico_prov_credentials_t *wifi_credentials) {
     uint8_t err = pico_fs_write_file(CREDENTIALS_PATH, final_credentials_buffer, strlen(final_credentials_buffer));
 
     if (err == -1) {
-        printf("[pico_prov] failed to write to file\n");
+        WL_LOGE("pico_prov", "failed to write to file");
         return PICO_PROV_ERR_FS_WRITE;
     }
 

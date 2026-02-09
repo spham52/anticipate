@@ -41,13 +41,13 @@ notify_client_t* notify_client_init() {
 err_t notify_client_post_notification(notify_client_t *notify_client) {
 
     if (!notify_client) {
-        printf("[notify client] NULL client struct passed to post notification\n");
+        WL_LOGE("notify_client", "NULL client struct passed to post notification");
         return ERR_MEM;
     }
 
     // connected flag must be handled by tcp callbacks
     if (notify_client->connected) {
-        printf("[notify_client] client already connected, cannot post notification\n");
+        WL_LOGW("notify_client", "client already connected, cannot post notification");
         return ERR_ISCONN;
     }
 
@@ -56,7 +56,7 @@ err_t notify_client_post_notification(notify_client_t *notify_client) {
     // sending of post request called by connected callback
     err_t err = notify_client_start(notify_client);
     if (err != ERR_OK) {
-        printf("[notify_client] notify_client_start failed %d\n", err);
+        WL_LOGE("notify_client", "notify_client_start failed %d", err);
         return err;
     }
 
@@ -65,7 +65,7 @@ err_t notify_client_post_notification(notify_client_t *notify_client) {
     }
 
     if (!notify_client->connected) {
-        printf("[notify_client] notify_client_post_notification failed to connect\n");
+        WL_LOGE("notify_client", "notify_client_post_notification failed to connect to server");
         return ERR_CONN;
     }
     
@@ -78,11 +78,11 @@ err_t notify_client_post_notification(notify_client_t *notify_client) {
 static err_t notify_client_start(notify_client_t *notify_client) {
 
     // connect to server port
-    printf("[notify_client] Connecting to %s port %u\n", ip4addr_ntoa(&notify_client->remote_addr), TCP_PORT);
+    WL_LOGI("notify_client", "Connecting to %s port %u", ip4addr_ntoa(&notify_client->remote_addr), TCP_PORT);
 
     notify_client->tcp_pcb = tcp_new_ip_type(IP_GET_TYPE(&notify_client->remote_addr));
     if (!notify_client->tcp_pcb) {
-        printf("[notify_client] failed to create pcb\n");
+        WL_LOGE("notify_client", "failed to create pcb");
         return ERR_MEM;
     }
 
@@ -107,7 +107,7 @@ static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err)
     notify_client_t *state = (notify_client_t*)arg;
     
     if (err != ERR_OK) {
-        printf("[notify_client] connect failed %d\n", err);
+        WL_LOGE("notify_client", "connect failed %d", err);
         return err;
     }
 
@@ -116,17 +116,17 @@ static err_t notify_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err)
     // send the POST request
     err = tcp_write(state->tcp_pcb, POST_REQUEST, strlen(POST_REQUEST), TCP_WRITE_FLAG_COPY);
     if (err != ERR_OK) {
-        printf("[notify_client] notification post failed %d\n", err);
+        WL_LOGE("notify_client", "notification post failed %d", err);
         return err;
     }
 
     err = tcp_output(tpcb);
     if (err != ERR_OK) {
-        printf("[notify_client] tcp_output failed %d\n", err);
+        WL_LOGE("notify_client", "tcp_output failed %d", err);
         return err;
     }
 
-    printf("[notify_client] notification post sent successfully\n");
+    WL_LOGI("notify_client", "notification post sent successfully");
     state->complete = true;
 
     return ERR_OK;
@@ -145,14 +145,14 @@ static err_t notify_client_close(void *arg) {
     // actual closing of the tcp connection
     err = tcp_close(state->tcp_pcb);
     if (err != ERR_OK) {
-        printf("[notify_client] close failed %d, calling abort\n", err);
+        WL_LOGE("notify_client", "close failed %d, calling abort", err);
         tcp_abort(state->tcp_pcb);
         err = ERR_ABRT;
     }
 
     state->tcp_pcb = NULL;
     state->connected = false;
-    printf("[notify_client] Notification client closed successfully\n");
+    WL_LOGI("notify_client", "Notification client closed successfully");
 
     return err;
 }
@@ -160,12 +160,12 @@ static err_t notify_client_close(void *arg) {
 static err_t notify_client_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
     
     notify_client_t *state = (notify_client_t*)arg;
-    printf("[notify_client] notify_client sent %u bytes\n", len);
+    WL_LOGI("notify_client", "notify_client sent %u bytes", len);
     state->recv_len += len;
 
     if (len >= state->sent_len) {
         state->complete = true;
-        printf("[notify_client] server acknowledges all bytes sent\n");
+        WL_LOGI("notify_client", "server acknowledges all bytes sent");
     }
 
     return ERR_OK;
@@ -176,10 +176,10 @@ static void notify_client_err(void *arg, err_t err) {
     notify_client_t *state = (notify_client_t*)arg;
 
     if (err == ERR_ABRT) {
-        printf("[notify_client] connection to server failed: %d\n", err);
+        WL_LOGE("notify_client", "connection to server failed: %d", err);
     }
     else {
-        printf("[notify_client] lwip/tcp error code: %d\n", err);
+        WL_LOGE("notify_client", "lwip/tcp error code: %d", err);
     }
     
     // ensure tcp is set to null as its unusable at this point
@@ -191,10 +191,10 @@ static void notify_client_err(void *arg, err_t err) {
 err_t notify_client_connect_wifi(const char *ssid, const char *password) {
     
     // connect to wifi with obtained credentials
-    WL_LOGI("main", "connecting to WiFi with credentials:");
-    printf("    ssid: \"%s\"\n", ssid);
+    WL_LOGI("main", "connecting to WiFi with credentials:\n    ssid: \"%s\"\n    password: \"%s\"", ssid, password);
+    /*printf("    ssid: \"%s\"\n", ssid);
     fflush(stdout);
-    printf("    password: \"%s\"\n", password);
+    printf("    password: \"%s\"\n", password);*/
 
     cyw43_arch_enable_sta_mode();
     
@@ -202,7 +202,7 @@ err_t notify_client_connect_wifi(const char *ssid, const char *password) {
         return ERR_CONN;
     }
 
-    printf("[main] connected to WiFi successfully\n");
+    WL_LOGI("main", "connected to WiFi successfully");
 
     return ERR_OK;
 }
