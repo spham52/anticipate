@@ -2,13 +2,16 @@
   <h1>anticipate</h1>
 </div>
 
-Anticipate is a device for the ADHD. For those that forget things as they leave the house. For remembering your weight loss goals when opening the cookie jar, etc.
+Anticipate is an End-To-End IoT reminder service made for the forgetful. 
 
-Using the Pico Pi W board in combination with a motion sensor, anticipate sends users notifications to their device from anywhere over the internet when motion is sensed.
+Powered by a Spring-Boot backend, Anticipate delivers deployment-ready, modular software, for linking any end-user device to the Pi Pico firmware that waits for your move.
 
-Simply setup anticipate on the home wifi, add your device to the notification group and anticipate everything. Placing a setup anticipate up in a desired position will send a notification to devices of your choice when motion is detected.
+By employing the "as-code" doctrine, this project enforces clear service boundaries, repeatable builds, and deployment-ready structure.
+
+With a Raspberry Pi Pico W board in combination with a motion sensor, Anticipate sends users notifications to their device from anywhere over the internet when motion is sensed.
+
+Simply provision the device to home Wi-Fi, register it in the web app, and Anticipate anything.
 
 <div align="center">
     <img src="misc/pico_pi" alt="Photo of the Pico Pi W. Be sure to replace with finished product later!" width="500"/>
 </div>
-
