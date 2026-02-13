@@ -10,6 +10,8 @@ By employing an "as-code" doctrine, this project promotes repteatable builds and
 
 The backbone of Anticipate is run by a Spring-Boot server.
 
+![](https://github.com/spham52/anticipate/blob/main/misc/gif.gif)
+
 <div align="center">
     <img src="misc/gif.gif" alt="Gif of the login and dashboard of Anticipate" width="250"/>
 </div>
