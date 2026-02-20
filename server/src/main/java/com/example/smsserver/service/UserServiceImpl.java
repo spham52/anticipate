@@ -31,8 +31,6 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Username already in use");
         }
 
-        captchaService.checkCaptcha(userRegistrationRequestDTO.getCaptcha());
-
         User user = User.builder()
                 .email(userRegistrationRequestDTO.getEmail())
                 .username(userRegistrationRequestDTO.getUsername())

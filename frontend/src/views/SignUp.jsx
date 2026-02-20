@@ -4,11 +4,9 @@ import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import {validate as validateEmail} from 'email-validator'
 import { registerUser } from "../api/services/UserRegistrationService"
-import ReCAPTCHA from "react-google-recaptcha"
 
 export default function SignUp() {
     const [errors, setErrors] = useState({});
-    const [captcha, setCaptcha] = useState();
     const navigate = useNavigate();
 
     const handleValidation = (form) => {
@@ -30,10 +28,6 @@ export default function SignUp() {
             errors.confirmpassword = "Password does not match";
         }
 
-        if (!captcha) {
-            errors.captcha = "Please complete the captcha";
-        }
-
         setErrors(errors);
         return Object.keys(errors).length === 0
     }
@@ -42,7 +36,6 @@ export default function SignUp() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-        data.captcha = captcha;
         const isValid = handleValidation(data);
 
         if (isValid) {
@@ -79,11 +72,6 @@ export default function SignUp() {
                             ))}
                         </div>
                     )}
-                    <ReCAPTCHA
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                    id="signup-recaptcha"
-                    onChange={(captcha) => setCaptcha(captcha)}
-                    />
                     <input type="submit" value="Sign Up" id="signup-form-submit"/>
                 </form>
             </div>

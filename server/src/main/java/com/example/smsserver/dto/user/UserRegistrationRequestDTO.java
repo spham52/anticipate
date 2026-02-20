@@ -26,8 +26,4 @@ public class UserRegistrationRequestDTO {
     @NotNull
     @Email
     String email;
-
-    @NotBlank
-    @NotNull
-    String captcha;
 }

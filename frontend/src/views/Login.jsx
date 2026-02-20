@@ -10,6 +10,7 @@ import {saveFCMToken} from "../api/services/NotificationService"
 
 export default function Login() {
     const [token, setToken] = useState(null);
+    const [captcha, setCaptcha] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const navigate = useNavigate();
