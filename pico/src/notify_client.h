@@ -20,7 +20,10 @@ typedef struct {
 
 // Initializing the tcp structs.
 //
-// Heap allocates a new notify client instance.
+// Heap allocates a new notify client instance. As a part of establishing 
+// a TCP connection, the DNS library in invoked to resolve the notification
+// server's IP address. The resolved IP address is stored in the notify client
+// instance for later use in the connection process.
 // Error if new instance failed.
 notify_client_t* notify_client_init();
 
