@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableMongoRepositories
+//@EnableMongoRepositories
 @RequiredArgsConstructor
 public class SmsServerApplication {
 

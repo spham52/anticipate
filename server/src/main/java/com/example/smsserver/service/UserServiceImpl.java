@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private static final String DUPLICATE_ACCOUNT_ERROR = "EMAIL_EXISTS";
     private final FirebaseAuth firebaseAuth;
     private final UserRepository userRepository;
-    private final CaptchaService captchaService;
+   // private final CaptchaService captchaService;
 
     @Override
     // saves user information to database and authentication credentials in Firebase auth

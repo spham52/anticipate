@@ -1,0 +1,114 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.example:SMSServer >------------------------
+[INFO] Building SMSServer 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.6:run (default-cli) > test-compile @ SMSServer >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ SMSServer ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ SMSServer ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ SMSServer ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ SMSServer ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.6:run (default-cli) < test-compile @ SMSServer <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.6:run (default-cli) @ SMSServer ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2026-02-23T00:44:11.713Z  INFO 4355 --- [           main] c.e.smsserver.SmsServerApplication       : Starting SmsServerApplication using Java 21.0.10 with PID 4355 (/home/peek/projects/anticipate_1/anticipate/server/target/classes started by peek in /home/peek/projects/anticipate_1/anticipate/server)
+2026-02-23T00:44:11.715Z  INFO 4355 --- [           main] c.e.smsserver.SmsServerApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-23T00:44:12.246Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-23T00:44:12.247Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-23T00:44:12.351Z  INFO 4355 --- [           main] .RepositoryConfigurationExtensionSupport : Spring Data JPA - Could not safely identify store assignment for repository candidate interface com.example.smsserver.repository.TokenRegistrationRepository; If you want this repository to be a JPA repository, consider annotating your entities with one of these annotations: jakarta.persistence.Entity, jakarta.persistence.MappedSuperclass (preferred), or consider extending one of the following types with your repository: org.springframework.data.jpa.repository.JpaRepository
+2026-02-23T00:44:12.369Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 114 ms. Found 3 JPA repository interfaces.
+2026-02-23T00:44:12.394Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-23T00:44:12.394Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-02-23T00:44:12.400Z  INFO 4355 --- [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.example.smsserver.repository.SensorNotificationRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2026-02-23T00:44:12.401Z  INFO 4355 --- [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.example.smsserver.repository.SensorRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2026-02-23T00:44:12.401Z  INFO 4355 --- [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.example.smsserver.repository.UserRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2026-02-23T00:44:12.405Z  INFO 4355 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 1 MongoDB repository interface.
+2026-02-23T00:44:12.947Z  INFO 4355 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-23T00:44:12.957Z  INFO 4355 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-23T00:44:12.957Z  INFO 4355 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2026-02-23T00:44:12.995Z  INFO 4355 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-23T00:44:12.996Z  INFO 4355 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1250 ms
+2026-02-23T00:44:13.378Z  INFO 4355 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-23T00:44:13.418Z  INFO 4355 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2026-02-23T00:44:13.443Z  INFO 4355 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-23T00:44:13.638Z  INFO 4355 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-23T00:44:13.661Z  INFO 4355 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-23T00:44:13.899Z  INFO 4355 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e73f5e7
+2026-02-23T00:44:13.900Z  INFO 4355 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-23T00:44:13.961Z  INFO 4355 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.45
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-23T00:44:14.689Z  INFO 4355 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-23T00:44:14.747Z  INFO 4355 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T00:44:14.886Z  INFO 4355 --- [           main] org.mongodb.driver.client                : MongoClient with metadata {"driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "5.5.1"}, "os": {"type": "Linux", "name": "Linux", "architecture": "amd64", "version": "6.8.0-100-generic"}, "platform": "Java/Ubuntu/21.0.10+7-Ubuntu-124.04"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@2802caa2, com.mongodb.Jep395RecordCodecProvider@6b9f5dcf, com.mongodb.KotlinCodecProvider@5ab7e997]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2026-02-23T00:44:14.892Z  INFO 4355 --- [localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=15207265, minRoundTripTimeNanos=0}
+2026-02-23T00:44:15.488Z  WARN 4355 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-23T00:44:15.516Z  WARN 4355 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 7f88fde4-3801-4d19-80ce-2d689d5d1415
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-02-23T00:44:15.522Z  INFO 4355 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-02-23T00:44:15.684Z DEBUG 4355 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, TokenAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-23T00:44:15.934Z  INFO 4355 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-23T00:44:15.941Z  INFO 4355 --- [           main] c.e.smsserver.SmsServerApplication       : Started SmsServerApplication in 4.534 seconds (process running for 4.779)
+2026-02-23T00:44:39.064Z  INFO 4355 --- [0.1-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-23T00:44:39.064Z  INFO 4355 --- [0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-23T00:44:39.066Z  INFO 4355 --- [0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-02-23T00:44:39.082Z DEBUG 4355 --- [0.1-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /user/register
+2026-02-23T00:44:39.103Z DEBUG 4355 --- [0.1-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /user/register
+2026-02-23T00:44:41.906Z  WARN 4355 --- [0.1-8080-exec-1] c.e.s.exception.GlobalExceptionHandler   : User already exists
+2026-02-23T00:44:41.941Z DEBUG 4355 --- [0.1-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-23T00:45:38.222Z DEBUG 4355 --- [0.1-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /user/register
+2026-02-23T00:45:38.223Z DEBUG 4355 --- [0.1-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /user/register
+2026-02-23T00:45:39.734Z DEBUG 4355 --- [0.1-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-23T00:45:54.988Z DEBUG 4355 --- [0.1-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /sensor
+2026-02-23T00:45:55.933Z DEBUG 4355 --- [0.1-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /sensor
+2026-02-23T00:45:55.964Z  WARN 4355 --- [0.1-8080-exec-3] c.e.s.exception.GlobalExceptionHandler   : User lJemrMxOvSONLZjoyHu6jzQNMfi1 not found
+2026-02-23T00:46:12.526Z DEBUG 4355 --- [0.1-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /sensor
+2026-02-23T00:46:12.900Z DEBUG 4355 --- [0.1-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /sensor
+2026-02-23T00:46:12.913Z  WARN 4355 --- [0.1-8080-exec-4] c.e.s.exception.GlobalExceptionHandler   : User lJemrMxOvSONLZjoyHu6jzQNMfi1 not found
+2026-02-23T00:46:13.569Z DEBUG 4355 --- [0.1-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /sensor
+2026-02-23T00:46:13.929Z DEBUG 4355 --- [0.1-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /sensor
+2026-02-23T00:46:13.941Z  WARN 4355 --- [0.1-8080-exec-5] c.e.s.exception.GlobalExceptionHandler   : User lJemrMxOvSONLZjoyHu6jzQNMfi1 not found
+2026-02-23T00:49:07.718Z DEBUG 4355 --- [0.1-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /sensor
+2026-02-23T00:49:08.096Z DEBUG 4355 --- [0.1-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /sensor
+2026-02-23T00:50:00.877Z DEBUG 4355 --- [0.1-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing POST /sensor/register
+2026-02-23T00:50:01.259Z DEBUG 4355 --- [0.1-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured POST /sensor/register
+2026-02-23T00:50:01.283Z  WARN 4355 --- [0.1-8080-exec-8] c.e.s.exception.GlobalExceptionHandler   : Sensor 005 does not exist
+2026-02-23T00:51:40.774Z DEBUG 4355 --- [.1-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /user/register
+2026-02-23T00:51:40.775Z DEBUG 4355 --- [.1-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured POST /user/register
+2026-02-23T00:51:41.307Z  WARN 4355 --- [.1-8080-exec-10] c.e.s.exception.GlobalExceptionHandler   : User already exists
+2026-02-23T00:51:41.310Z DEBUG 4355 --- [.1-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-23T00:52:20.263Z DEBUG 4355 --- [0.1-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /sensor
+2026-02-23T00:52:20.635Z DEBUG 4355 --- [0.1-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /sensor
