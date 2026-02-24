@@ -11,9 +11,11 @@
 #include "wl_log.h"
 
 // http header defintions
+#define DOMAIN "www.anticipateapi.com.au"
+
 static const char *POST_REQUEST =
     "POST /api/notification/notify HTTP/1.1\r\n"
-    "Host: anticipateapi.com.au\r\n"
+    "Host: " DOMAIN "\r\n"
     "Content-Type: application/json\r\n"
     "Content-Length: 24\r\n"
     "Connection: close\r\n"
@@ -21,22 +23,9 @@ static const char *POST_REQUEST =
     "{\n" 
     " \"sensorID\" : 123\n"
     "}\n";
-/*
-static const char *POST_REQUEST =
-    "POST /api/notification/notify HTTP/1.1\r\n"
-    "Host: 192.168.1.109:8080\r\n"
-    "Content-Type: application/json\r\n"
-    "Content-Length: 24\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "{\n" 
-    " \"sensorID\" : 123\n"
-    "}\n";
-*/
 
 // other definitions
 #define TCP_PORT 80
-//ip_addr_t server_ip = IPADDR4_INIT_BYTES(192, 168, 1, 118);
 
 notify_client_t* notify_client_init() {
 
@@ -47,7 +36,7 @@ notify_client_t* notify_client_init() {
     }
 
     // resolving of server IP address
-    err_t err = pico_resolve_hostname("www.anticipateapi.com.au", &notify_client->remote_addr);
+    err_t err = pico_resolve_hostname(DOMAIN, &notify_client->remote_addr);
     
     sleep_ms(300); // give lwip stack 300ms to resolve hostname
     
@@ -60,7 +49,6 @@ notify_client_t* notify_client_init() {
     }
 
     WL_LOGI("notify_client", "resolved server IP address: %s", ip4addr_ntoa(&notify_client->remote_addr));
-    //notify_client->remote_addr = server_ip;
 
     return notify_client;
 }
@@ -219,9 +207,6 @@ err_t notify_client_connect_wifi(const char *ssid, const char *password) {
     
     // connect to wifi with obtained credentials
     WL_LOGI("main", "connecting to WiFi with credentials:\n    ssid: \"%s\"\n    password: \"%s\"", ssid, password);
-    /*printf("    ssid: \"%s\"\n", ssid);
-    fflush(stdout);
-    printf("    password: \"%s\"\n", password);*/
 
     cyw43_arch_enable_sta_mode();
     
