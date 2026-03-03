@@ -47,7 +47,7 @@ int main() {
         // poll wifi chip (further polls captive portal)
         while(wifi_credentials.ssid_state == 0) {
             cyw43_arch_poll();
-            sleep_ms(1);
+            blink(250); // indicate captive portal is active
         }
 
         // end pico provisioning (stores passed credentials to flash storage)
@@ -63,6 +63,12 @@ int main() {
     }
 
     if (notify_client_connect_wifi(wifi_credentials.ssid, wifi_credentials.password) != ERR_OK) {
+        
+        // 4 slow blinks indicate wifi related failure
+        for (int i = 0; i < 5; i++) {
+            blink(500);
+        }
+        
         WL_LOGE("main", "failed to connect to WiFi");
         return -1;
     }
@@ -70,6 +76,12 @@ int main() {
     // initialize notification client
     notify_client_t *notify_client = notify_client_init();
     if (notify_client == NULL) {
+
+        // 5 slow blinks indicate server related connection failure
+        for (int i = 0; i < 6; i++) {
+            blink(500);
+        }
+
         WL_LOGE("main", "notify_client_init failed");
         return -1;
     }
@@ -77,6 +89,9 @@ int main() {
     // Initialize sensor HAL
     sensor_hal_init();
     WL_LOGI("main", "sensor HAL initialized, listening for motion...");
+    for (int i = 0; i < 4; i++) {
+        blink(250); // indicate successful setup and entry into main loop
+    }
 
     // run sensor HAL
     while (1) {
