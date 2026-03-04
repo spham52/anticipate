@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private static final String DUPLICATE_ACCOUNT_ERROR = "EMAIL_EXISTS";
     private final FirebaseAuth firebaseAuth;
     private final UserRepository userRepository;
-    private final CaptchaService captchaService;
+   // private final CaptchaService captchaService;
 
     @Override
     // saves user information to database and authentication credentials in Firebase auth
@@ -30,8 +30,6 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsernameIgnoreCase(userRegistrationRequestDTO.getUsername())) {
             throw new IllegalArgumentException("Username already in use");
         }
-
-        captchaService.checkCaptcha(userRegistrationRequestDTO.getCaptcha());
 
         User user = User.builder()
                 .email(userRegistrationRequestDTO.getEmail())

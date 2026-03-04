@@ -9,9 +9,13 @@
 
 # Local Spring config (if it has secrets)
 server/src/main/resources/application.properties
+server/src/test/resources/application.properties
 
 # Firebase / other credentials
 server/src/main/resources/credentials/
+server/src/test/resources/credentials/
+
+frontend/.env
 
 # CMake build output
 /pico/build/
