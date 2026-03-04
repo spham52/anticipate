@@ -15,6 +15,17 @@ public class TokenRegistrationServiceImpl implements TokenRegistrationService {
     @Override
     // register Firebase token and associate with userID
     public TokenRegistration registerToken(TokenRegistrationRequestDTO tokenRegistrationRequestDTO, String userID) {
+        TokenRegistration existing = tokenRegistrationRepository.findByUserID(userID);
+
+        // checks if token exists first. if it does, it updates the existing token instead of creating
+        // a new one
+        if (existing != null) {
+            existing.setTokenID(tokenRegistrationRequestDTO.getTokenID());
+            existing.setPlatform(tokenRegistrationRequestDTO.getPlatform());
+            existing.setAppVersion(tokenRegistrationRequestDTO.getAppVersion());
+            return tokenRegistrationRepository.save(existing);
+        }
+
         TokenRegistration token = TokenRegistration.builder()
                 .tokenID(tokenRegistrationRequestDTO.getTokenID())
                 .userID(userID)
