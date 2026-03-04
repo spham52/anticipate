@@ -21,7 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     // end points that can be accessed without authentication
-    private static final String[] WHITELISED_API_ENDPOINTS = {"/user/register", "/notification/notify"};
+    private static final String[] WHITELISED_API_ENDPOINTS = {
+	"/user/register", 
+	"/notification/notify",
+	"/user/login",
+    };
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Value("${app.cors.allowed-origins}")
@@ -39,7 +43,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authManager -> {
                     // allow unauthorised access to WHITELISTED_API_ENDPOINTS
-                    authManager.requestMatchers(HttpMethod.POST, WHITELISED_API_ENDPOINTS)
+                    authManager
+			    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+			    .requestMatchers(HttpMethod.POST, WHITELISED_API_ENDPOINTS)
                             .permitAll()
                             .anyRequest() // else other endpoints have to be authenticated
                             .authenticated();

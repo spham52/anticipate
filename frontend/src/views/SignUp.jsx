@@ -46,8 +46,10 @@ export default function SignUp() {
                     navigate('/login');
                 }
             } catch (error) {
-                setErrors({ api: error.response?.data?.message });
-            }
+            	setErrors({
+        		api: error.response?.data?.message ?? error.message ?? "Signup failed"
+    		});
+	    }
         }
     }
 

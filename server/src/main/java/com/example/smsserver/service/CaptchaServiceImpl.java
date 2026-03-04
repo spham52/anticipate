@@ -16,7 +16,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     private final String GOOGLE_RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
     private final WebClient webClient;
 
-    @Value("${recaptcha.secret-key}")
+    @Value("${recaptcha.secret-key:}")
     private String GOOGLE_RECAPTCHA_SECRET;
 
     @Autowired
