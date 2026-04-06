@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -17,8 +18,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 // each entry represents a token used for sending notifications to a specified user
 public class TokenRegistration {
     @Id
-    private String tokenID;
+    private String id;
 
+    private String tokenID;
+    @Indexed(unique = true)
     private String userID;
 
     @Builder.Default
